@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzx.hospital.mapper.HospitalSetMapper">
+
+    <select id="getSignKey" resultType="java.lang.String">
+        select sign_key
+        from tb_hospital_set
+        where hospital_code = #{hospitalCode}
+    </select>
+    <select id="getHospitalNameByHospitalCode" resultType="java.lang.String">
+        select hospital_name
+        from tb_hospital_set
+        where hospital_code = #{hospitalCode}
+    </select>
+</mapper>
