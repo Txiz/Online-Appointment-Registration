@@ -55,7 +55,7 @@ public class CodeGenerator {
 
         // 包名com.xzx.edu
         pc.setParent("com.xzx");
-        pc.setModuleName("admin");
+        pc.setModuleName("model");
 
         pc.setController("controller");
         pc.setEntity("entity");
@@ -68,7 +68,7 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
 
         // 表的名称
-        strategy.setInclude("tb_data_dictionary");
+        strategy.setInclude("tb_user_info");
         //数据库表映射到实体的命名策略
         strategy.setNaming(NamingStrategy.underline_to_camel);
         //生成实体时去掉表前缀

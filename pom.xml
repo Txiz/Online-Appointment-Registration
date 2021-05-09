@@ -31,6 +31,7 @@
         <velocity.version>2.2</velocity.version>
         <swagger.version>2.9.2</swagger.version>
         <jwt.version>0.9.1</jwt.version>
+        <core.version>4.5.20</core.version>
         <oss.version>3.1.0</oss.version>
         <fastjson.version>1.2.68</fastjson.version>
         <httpclient.version>4.5.13</httpclient.version>
@@ -111,6 +112,12 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${jwt.version}</version>
+            </dependency>
+            <!-- 阿里云核心JDK-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${core.version}</version>
             </dependency>
             <!-- 阿里云oss -->
             <dependency>

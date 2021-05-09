@@ -1,0 +1,47 @@
+# 端口号
+server:
+  port: 8000
+
+spring:
+  # 服务名
+  application:
+    name: gateway
+  # 当前环境
+  profiles:
+    active: dev
+  # nacos服务地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      # 网关
+      discovery:
+        locator:
+          enabled: true
+      # 路由
+      routes:
+        - id: service-hospital
+          uri: lb://service-hospital
+          predicates:
+            - Path=/*/hospital/**
+        - id: service-task
+          uri: lb://service-task
+          predicates:
+            - Path=/task/**
+
+#
+#feign:
+#  hystrix:
+#    enabled: true
+#  httpclient:
+#    enabled: true
+#    connection-timeout: 20000
+#    connection-timer-repeat: 30000
+#  client:
+#    config:
+#      default:
+#        connectTimeout: 20000
+#        readTimeout: 20000
+
+

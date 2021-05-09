@@ -1,23 +1,13 @@
 # 服务端口
 server:
-  port: 8001
+  port: 8002
 spring:
   # 服务名称
   application:
-    name: service-hospital
+    name: service-task
   # 环境设置
   profiles:
     active: dev
-  # Mysql
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xzx-hospital?serverTimezone=GMT%2B8
-    username: root
-    password: xzx123
-  # Mongodb
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/xzx-hospital
   # Json格式化时间
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -43,12 +33,6 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
-
-# mybatis-plus日志
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations: classpath:/xml/*.xml
 
 #feign:
 #  httpclient:

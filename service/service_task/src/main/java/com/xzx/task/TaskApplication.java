@@ -1,22 +1,21 @@
-package com.xzx.hospital;
+package com.xzx.task;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * 医院服务启动类
+ * 任务服务启动器
  * 作者: xzx
- * 创建时间: 2021-04-29-13-32
+ * 创建时间: 2021-05-08-15-31
  **/
-@SpringBootApplication
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableDiscoveryClient
-@MapperScan("com.xzx.hospital.mapper")
 @ComponentScan({"com.xzx"})
-public class HospitalApplication {
+public class TaskApplication {
     public static void main(String[] args) {
-        SpringApplication.run(HospitalApplication.class, args);
+        SpringApplication.run(TaskApplication.class, args);
     }
 }
