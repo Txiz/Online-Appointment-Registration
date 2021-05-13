@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 08/05/2021 12:45:09
+ Date: 13/05/2021 13:23:20
 */
 
 SET NAMES utf8mb4;
@@ -22,12 +22,12 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_data_dictionary`;
 CREATE TABLE `tb_data_dictionary`  (
-  `id` int NOT NULL DEFAULT 0 COMMENT 'id',
-  `parent_id` int NOT NULL DEFAULT 0 COMMENT '上级id',
+  `id` int NOT NULL DEFAULT 0 COMMENT '表自增主键',
+  `parent_id` int NOT NULL DEFAULT 0 COMMENT '父id',
   `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '名称',
   `value` int NULL DEFAULT NULL COMMENT '值',
   `code` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编码',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 1 COMMENT '逻辑删除(1:已删除，0:未删除)',
+  `is_delete` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除(1:已删除，0:未删除)',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -3447,18 +3447,82 @@ CREATE TABLE `tb_hospital_set`  (
   `sign_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '签名秘钥',
   `contacts_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系人',
   `contacts_phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系人手机',
-  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '状态(1:已启用，0:未启用)',
-  `is_delete` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除(1:已删除，0:未删除)',
+  `status` tinyint NOT NULL DEFAULT 1 COMMENT '状态(1:已启用，0:未启用)',
+  `is_delete` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除(1:已删除，0:未删除)',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `version` int NOT NULL DEFAULT 1 COMMENT '乐观锁',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_hospital_code`(`hospital_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '医院信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '医院信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_hospital_set
 -- ----------------------------
 INSERT INTO `tb_hospital_set` VALUES (1, '某医院', '1000_0', 'https://mou.com', '8sadexcaer', '院长', '12212223421', 0, 0, '2021-04-30 16:19:39', '2021-04-30 16:19:42', 1);
+
+-- ----------------------------
+-- Table structure for tb_patient_info
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_patient_info`;
+CREATE TABLE `tb_patient_info`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `user_id` int NULL DEFAULT NULL COMMENT '用户id',
+  `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
+  `real_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名',
+  `certificates_type` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '证件类型',
+  `certificates_number` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '证件编号',
+  `sex` tinyint NULL DEFAULT NULL COMMENT '性别（0：男 1：女）',
+  `birthdate` date NULL DEFAULT NULL COMMENT '出生年月',
+  `is_marry` tinyint NULL DEFAULT NULL COMMENT '是否结婚',
+  `province_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '省代码',
+  `city_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '市代码',
+  `district_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '区代码',
+  `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '详情地址',
+  `contacts_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系人姓名',
+  `contacts_certificates_type` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系人证件类型',
+  `contacts_certificates_number` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系人证件号',
+  `contacts_phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系人手机',
+  `card_number` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '就诊卡号',
+  `is_insure` tinyint NULL DEFAULT 0 COMMENT '是否有医保',
+  `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（0：默认 1：已认证）',
+  `is_delete` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除(1:已删除，0:未删除)',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_user_id`(`user_id`) USING BTREE,
+  CONSTRAINT `tb_patient_info_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tb_user_info` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '就诊人表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_patient_info
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_user_info
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_user_info`;
+CREATE TABLE `tb_user_info`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '表自增主键',
+  `openid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '支付宝id',
+  `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '手机号',
+  `nick_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户昵称',
+  `real_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户姓名',
+  `certificates_type` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '证件类型',
+  `certificates_number` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '证件编号',
+  `certificates_url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '证件路径',
+  `auth_status` tinyint NULL DEFAULT 0 COMMENT '认证状态（0：未认证 1：认证中 2：认证成功 -1：认证失败）',
+  `is_enable` tinyint NULL DEFAULT 1 COMMENT '状态（0：锁定 1：正常）',
+  `is_delete` tinyint NULL DEFAULT 0 COMMENT '逻辑删除(1:已删除，0:未删除)',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `uk_mobile`(`phone`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_user_info
+-- ----------------------------
+INSERT INTO `tb_user_info` VALUES (9, NULL, '17721233871', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, '2021-05-09 16:35:03', '2021-05-09 16:35:03');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * 创建时间: 2021-04-30-23-50
  **/
 @RestController
-@RequestMapping("/admin/hospital/hospital-info")
+@RequestMapping("/hospital/hospital-info")
 @Api(tags = "医院信息控制器")
 public class HospitalInfoController {
 

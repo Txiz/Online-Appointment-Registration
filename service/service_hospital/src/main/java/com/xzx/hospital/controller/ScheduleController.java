@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * 创建时间: 2021-05-01-20-21
  **/
 @RestController
-@RequestMapping("/admin/hospital/schedule")
+@RequestMapping("/hospital/schedule")
 @Api(tags = "工作计划控制器")
 public class ScheduleController {
 

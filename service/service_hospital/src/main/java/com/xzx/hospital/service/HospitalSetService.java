@@ -24,7 +24,7 @@ public interface HospitalSetService extends IService<HospitalSet> {
 
     R pageHospitalSet(Integer current, Integer size, HospitalSetQueryVo hospitalSetQueryVo);
 
-    R lockHospitalSet(Integer id, Boolean status);
+    R lockHospitalSet(Integer id, Integer status);
 
     R getSignKeyById(Integer id);
 }

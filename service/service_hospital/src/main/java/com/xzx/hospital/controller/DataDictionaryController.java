@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 2021-04-29
  */
 @RestController
-@RequestMapping("/admin/hospital/data-dictionary")
+@RequestMapping("/hospital/data-dictionary")
 @Api(tags = "数据字典控制器")
 public class DataDictionaryController {
 

@@ -8,6 +8,13 @@ spring:
   # 环境设置
   profiles:
     active: dev
+  # 文件上传参数
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 10MB
+      # 单次请求总文件大小
+      max-request-size: 100MB
   # Json格式化时间
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

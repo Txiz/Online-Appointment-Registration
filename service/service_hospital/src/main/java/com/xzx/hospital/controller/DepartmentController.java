@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * 创建时间: 2021-05-01-15-55
  **/
 @RestController
-@RequestMapping("/admin/hospital/department")
+@RequestMapping("/hospital/department")
 @Api(tags = "部门科室控制器")
 public class DepartmentController {
 

@@ -6,6 +6,6 @@ package com.xzx.common.constant;
  * 创建时间: 2021-03-05-09-49
  **/
 public interface ResultConstant {
-    Integer SUCCESS = 200;
-    Integer ERROR = 201;
+    Integer SUCCESS = 20000;
+    Integer ERROR = 20001;
 }

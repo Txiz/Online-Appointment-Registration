@@ -30,7 +30,7 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
     @Override
     public R saveHospitalSet(HospitalSet hospitalSet) {
         // 设置医院集合状态
-        hospitalSet.setStatus(true);
+        hospitalSet.setStatus(1);
         // 设置签名密钥
         Random random = new Random();
         hospitalSet.setSignKey(MD5Util.encrypt(System.currentTimeMillis() + "" + random.nextInt(100)));
@@ -44,7 +44,7 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
 
     @Override
     public R getHospitalSet(Integer id) {
-        return R.ok().data("hospitalSet", getById(id)).message("根据表id获取医院集合！");
+        return R.ok().data("hospitalSet", getById(id)).message("根据表id获取医院集合成功！");
     }
 
     @Override
@@ -54,7 +54,7 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
 
     @Override
     public R listHospitalSet() {
-        return R.ok().data("HospitalSetList", list()).message("查询所有医院集合列表成功！");
+        return R.ok().data("hospitalSetList", list()).message("查询所有医院集合列表成功！");
     }
 
     @Override
@@ -78,7 +78,7 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
     }
 
     @Override
-    public R lockHospitalSet(Integer id, Boolean status) {
+    public R lockHospitalSet(Integer id, Integer status) {
         // 保证乐观锁起效，必须先获取当前version
         HospitalSet hospitalSet = getById(id);
         hospitalSet.setStatus(status);

@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @since 2021-04-29
  */
 @RestController
-@RequestMapping("/admin/hospital/hospital-set")
+@RequestMapping("/hospital/hospital-set")
 @Api(tags = "医院集合控制器")
 public class HospitalSetController {
 
@@ -66,7 +66,7 @@ public class HospitalSetController {
 
     @ApiOperation(value = "跟据表id锁定医院集合")
     @PutMapping("/lock/{id}/{status}")
-    public R lockHospitalSet(@PathVariable Integer id, @PathVariable Boolean status) {
+    public R lockHospitalSet(@PathVariable Integer id, @PathVariable Integer status) {
         return hospitalSetService.lockHospitalSet(id, status);
     }
 

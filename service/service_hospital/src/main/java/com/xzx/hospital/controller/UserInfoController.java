@@ -3,13 +3,12 @@ package com.xzx.hospital.controller;
 
 import com.xzx.common.result.R;
 import com.xzx.hospital.service.UserInfoService;
+import com.xzx.model.vo.UserAuthVo;
 import com.xzx.model.vo.UserLoginVo;
+import com.xzx.model.vo.UserQueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2021-05-08
  */
 @RestController
-@RequestMapping("/admin/hospital/user-info")
+@RequestMapping("/hospital/user-info")
 @Api(tags = "用户信息控制器")
 public class UserInfoController {
 
@@ -34,6 +33,42 @@ public class UserInfoController {
     @PostMapping("/loginByPhone")
     public R loginByPhone(@RequestBody UserLoginVo userLoginVo) {
         return userInfoService.loginByPhone(userLoginVo);
+    }
+
+    @ApiOperation(value = "用户信息认证")
+    @PostMapping("/auth")
+    public R authUserInfo(@RequestBody UserAuthVo userAuthVo, HttpServletRequest request) {
+        return userInfoService.authUserInfo(userAuthVo, request);
+    }
+
+    @ApiOperation(value = "获取用户信息")
+    @GetMapping("/get")
+    public R getUserInfo(HttpServletRequest request) {
+        return userInfoService.getUserInfo(request);
+    }
+
+    @ApiOperation(value = "根据表id获取用户信息")
+    @GetMapping("/{id}")
+    public R getUserInfoById(@PathVariable Integer id) {
+        return userInfoService.getUserInfoById(id);
+    }
+
+    @ApiOperation(value = "根据表id锁定用户信息")
+    @GetMapping("/lock/{id}/{isEnable}")
+    public R lockUserInfo(@PathVariable Integer id, @PathVariable Integer isEnable) {
+        return userInfoService.lockUserInfo(id, isEnable);
+    }
+
+    @ApiOperation(value = "根据表id认证用户信息")
+    @GetMapping("/approval/{id}/{authStatus}")
+    public R approvalUserInfo(@PathVariable Integer id, @PathVariable Integer authStatus) {
+        return userInfoService.approvalUserInfo(id, authStatus);
+    }
+
+    @ApiOperation(value = "分页查询所有用户信息列表")
+    @PostMapping("/page/{current}/{size}")
+    public R pageUserInfo(@PathVariable Integer current, @PathVariable Integer size, @RequestBody(required = false) UserQueryVo userQueryVo) {
+        return userInfoService.pageUserInfo(current, size, userQueryVo);
     }
 }
 
