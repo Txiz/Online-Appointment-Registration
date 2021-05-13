@@ -24,7 +24,7 @@ spring:
         - id: service-hospital
           uri: lb://service-hospital
           predicates:
-            - Path=/*/hospital/**
+            - Path=/hospital/**
         - id: service-task
           uri: lb://service-task
           predicates:
