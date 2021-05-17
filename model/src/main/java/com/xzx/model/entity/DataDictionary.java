@@ -26,7 +26,7 @@ public class DataDictionary implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "id")
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Integer id;
 
     @ApiModelProperty(value = "父id")

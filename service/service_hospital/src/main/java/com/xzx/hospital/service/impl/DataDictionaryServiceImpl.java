@@ -32,7 +32,7 @@ public class DataDictionaryServiceImpl extends ServiceImpl<DataDictionaryMapper,
     @Override
     public R importDataDictionary(MultipartFile file) {
         try {
-            EasyExcel.read(file.getInputStream(), DataDictionaryExcelVo.class, new DataDictionaryListener()).sheet().doRead();
+            EasyExcel.read(file.getInputStream(), DataDictionaryExcelVo.class, new DataDictionaryListener(baseMapper)).sheet().doRead();
             return R.ok().message("Excel表导入成功！");
         } catch (IOException e) {
             e.printStackTrace();

@@ -27,6 +27,7 @@ public class DataDictionaryController {
     @Resource
     private DataDictionaryService dataDictionaryService;
 
+
     @ApiOperation(value = "导入数据字典")
     @PostMapping("/import")
     public R importDataDictionary(MultipartFile file) {
@@ -34,7 +35,7 @@ public class DataDictionaryController {
     }
 
     @ApiOperation(value = "导出数据字典")
-    @PostMapping("/export")
+    @GetMapping("/export")
     public R exportDataDictionary(HttpServletResponse response) {
         return dataDictionaryService.exportDataDictionary(response);
     }

@@ -7,8 +7,6 @@ import com.xzx.model.entity.DataDictionary;
 import com.xzx.model.vo.DataDictionaryExcelVo;
 import org.springframework.beans.BeanUtils;
 
-import javax.annotation.Resource;
-
 /**
  * 数据字典监听器
  * 作者: xzx
@@ -16,8 +14,11 @@ import javax.annotation.Resource;
  **/
 public class DataDictionaryListener extends AnalysisEventListener<DataDictionaryExcelVo> {
 
-    @Resource
-    private DataDictionaryMapper dataDictionaryMapper;
+    private final DataDictionaryMapper dataDictionaryMapper;
+
+    public DataDictionaryListener(DataDictionaryMapper dataDictionaryMapper) {
+        this.dataDictionaryMapper = dataDictionaryMapper;
+    }
 
     @Override
     public void invoke(DataDictionaryExcelVo dataDictionaryExcelVo, AnalysisContext analysisContext) {
