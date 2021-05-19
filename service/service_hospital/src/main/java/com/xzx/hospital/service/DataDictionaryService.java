@@ -22,4 +22,6 @@ public interface DataDictionaryService extends IService<DataDictionary> {
     R exportDataDictionary(HttpServletResponse response);
 
     R listDataDictionary(Integer id);
+
+    R listByCode(String code);
 }

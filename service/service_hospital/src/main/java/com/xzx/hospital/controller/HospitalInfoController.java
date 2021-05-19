@@ -39,4 +39,10 @@ public class HospitalInfoController {
     public R getHospitalInfo(@PathVariable String id) {
         return hospitalInfoService.getHospitalInfo(id);
     }
+
+    @ApiOperation(value = "根据医院名称获取医院列表")
+    @GetMapping("/listByHospitalName/{hospitalName}")
+    public R listByHospitalName(@PathVariable String hospitalName) {
+        return hospitalInfoService.listByHospitalName(hospitalName);
+    }
 }

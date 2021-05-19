@@ -45,5 +45,11 @@ public class DataDictionaryController {
     public R listDataDictionary(@PathVariable Integer id) {
         return dataDictionaryService.listDataDictionary(id);
     }
+
+    @ApiOperation(value = "根据code获取下级节点")
+    @GetMapping("/listByCode/{code}")
+    public R listByCode(@PathVariable String code) {
+        return dataDictionaryService.listByCode(code);
+    }
 }
 

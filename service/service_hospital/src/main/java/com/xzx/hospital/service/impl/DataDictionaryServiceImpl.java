@@ -76,6 +76,14 @@ public class DataDictionaryServiceImpl extends ServiceImpl<DataDictionaryMapper,
         return R.ok().data("DataDictionary", dataDictionaries).message("根据表id：" + id + "查询子数据字典成功！");
     }
 
+    @Override
+    public R listByCode(String code) {
+        QueryWrapper<DataDictionary> wrapper = new QueryWrapper<>();
+        wrapper.eq("code", code);
+        DataDictionary one = getOne(wrapper);
+        return listDataDictionary(one.getId());
+    }
+
     private Boolean hasChildren(Integer id) {
         QueryWrapper<DataDictionary> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id", id);

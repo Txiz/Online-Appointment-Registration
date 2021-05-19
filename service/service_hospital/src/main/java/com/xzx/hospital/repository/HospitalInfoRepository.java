@@ -4,6 +4,8 @@ import com.xzx.model.entity.HospitalInfo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 医院信息操作
  * 作者: xzx
@@ -13,4 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface HospitalInfoRepository extends MongoRepository<HospitalInfo, String> {
 
     HospitalInfo getHospitalInfoByHospitalCode(String hospitalCode);
+
+    List<HospitalInfo> findHospitalInfoByHospitalNameLike(String hospitalName);
 }

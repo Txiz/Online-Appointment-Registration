@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -111,7 +112,7 @@ public class HospitalInfoServiceImpl implements HospitalInfoService {
         Page<HospitalInfo> page = hospitalInfoRepository.findAll(example, pageable);
         // 获取查询的列表，设置医院信息的其他参数
         page.getContent().forEach(this::setHospitalType);
-        return R.ok().data("hospitalInfoList", page).message("分页查询所有医院信息列表成功！");
+        return R.ok().data("hospitalInfoList", page).data("totalPage", page.getTotalPages()).message("分页查询所有医院信息列表成功！");
     }
 
     private void setHospitalType(HospitalInfo hospitalInfo) {
@@ -143,5 +144,11 @@ public class HospitalInfoServiceImpl implements HospitalInfoService {
         // 设置医院信息的其他参数
         setHospitalType(hospitalInfo);
         return R.ok().data("hospitalInfo", hospitalInfo).message("根据表id获取医院信息成功！");
+    }
+
+    @Override
+    public R listByHospitalName(String hospitalName) {
+        List<HospitalInfo> hospitalInfoList = hospitalInfoRepository.findHospitalInfoByHospitalNameLike(hospitalName);
+        return R.ok().data("hospitalInfo", hospitalInfoList).message("根据医院名称获取医院信息列表成功！");
     }
 }

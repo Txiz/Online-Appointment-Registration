@@ -8,6 +8,12 @@ spring:
   # 环境设置
   profiles:
     active: dev
+  # 数据库
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/xzx-security?serverTimezone=GMT%2B8
+    username: root
+    password: xzx123
   # 文件上传参数
   servlet:
     multipart:

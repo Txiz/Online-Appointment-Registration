@@ -24,4 +24,6 @@ public interface HospitalInfoService {
     R updateStatus(String id, Integer status);
 
     R getHospitalInfo(String id);
+
+    R listByHospitalName(String hospitalName);
 }
