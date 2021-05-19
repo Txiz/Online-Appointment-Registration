@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 13/05/2021 13:23:20
+ Date: 19/05/2021 14:37:29
 */
 
 SET NAMES utf8mb4;
@@ -3460,6 +3460,31 @@ CREATE TABLE `tb_hospital_set`  (
 -- Records of tb_hospital_set
 -- ----------------------------
 INSERT INTO `tb_hospital_set` VALUES (1, '某医院', '1000_0', 'https://mou.com', '8sadexcaer', '院长', '12212223421', 0, 0, '2021-04-30 16:19:39', '2021-04-30 16:19:42', 1);
+
+-- ----------------------------
+-- Table structure for tb_log
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_log`;
+CREATE TABLE `tb_log`  (
+  `log_id` int NOT NULL AUTO_INCREMENT COMMENT '日志主键id',
+  `log_type` tinyint NULL DEFAULT NULL COMMENT '方法类型 0：登录日志 1：操作日志 2：异常日志',
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名称',
+  `uri` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求接口',
+  `method` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方法',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '方法描述',
+  `error` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '异常信息',
+  `ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
+  `ip_source` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP来源',
+  `os` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作系统',
+  `browser` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '浏览器',
+  `times` int NULL DEFAULT NULL COMMENT '方法消耗时间',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`log_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_patient_info
