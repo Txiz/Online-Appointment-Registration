@@ -1,10 +1,10 @@
-package com.xzx.task.controller;
+package com.xzx.hospital.controller;
 
 
 import com.xzx.common.result.R;
+import com.xzx.hospital.service.LogService;
 import com.xzx.model.entity.Log;
 import com.xzx.model.vo.LogQueryVo;
-import com.xzx.task.service.LogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +40,9 @@ public class LogController {
     }
 
     @ApiOperation(value = "删除异常日志")
-    @DeleteMapping("/remove/{logId}")
-    public R removeLogByLogId(@PathVariable Integer logId) {
-        return logService.removeLogByLogId(logId);
+    @DeleteMapping("/{logId}")
+    public R removeLog(@PathVariable Integer logId) {
+        return logService.removeLog(logId);
     }
 }
 

@@ -1,4 +1,4 @@
-package com.xzx.task.service;
+package com.xzx.hospital.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xzx.common.result.R;
@@ -19,5 +19,5 @@ public interface LogService extends IService<Log> {
 
     R pageLog(Integer current, Integer size, LogQueryVo logQueryVo);
 
-    R removeLogByLogId(Integer logId);
+    R removeLog(Integer logId);
 }

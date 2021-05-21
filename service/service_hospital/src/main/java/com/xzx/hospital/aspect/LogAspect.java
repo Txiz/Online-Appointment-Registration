@@ -1,11 +1,11 @@
 package com.xzx.hospital.aspect;
 
 import com.xzx.common.annotation.LogAnnotation;
+import com.xzx.common.util.AuthUtil;
 import com.xzx.common.util.ErrorUtil;
 import com.xzx.common.util.IpUtil;
-import com.xzx.common.util.JwtUtil;
 import com.xzx.common.util.UserAgentUtil;
-import com.xzx.hospital.client.LogClient;
+import com.xzx.hospital.service.LogService;
 import com.xzx.model.entity.Log;
 import com.xzx.model.vo.UserLoginVo;
 import org.aspectj.lang.JoinPoint;
@@ -14,6 +14,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -32,10 +33,13 @@ import java.util.Map;
 public class LogAspect {
 
     @Resource
-    private LogClient logClient;
+    private LogService logService;
 
     @Resource
     private UserAgentUtil userAgentUtil;
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Pointcut(value = "@annotation(logAnnotation)", argNames = "logAnnotation")
     public void pointCut(LogAnnotation logAnnotation) {
@@ -54,23 +58,30 @@ public class LogAspect {
         // 方法执行时间
         int times = (int) (endTime - startTime);
         Log log = logHandler(joinPoint, logAnnotation, times);
-        logClient.saveLog(log);
+        logService.saveLog(log);
         return res;
     }
 
     @AfterThrowing(value = "exceptionPointCut()", throwing = "exception")
     public void afterThrowing(JoinPoint joinPoint, Exception exception) {
         Log log = logHandler(joinPoint, exception);
-        logClient.saveLog(log);
+        logService.saveLog(log);
+        Integer exceptionNum = (Integer) redisTemplate.opsForValue().get("exception_num");
+        if (exceptionNum == null) exceptionNum = 0;
+        redisTemplate.opsForValue().set("exception_num", exceptionNum + 1);
     }
 
     private Log logHandler(ProceedingJoinPoint joinPoint, LogAnnotation logAnnotation, int times) {
-        int type = logAnnotation.type();
-        Object[] args = joinPoint.getArgs();
-        String username = ((UserLoginVo) args[0]).getPhone();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
+        Object[] args = joinPoint.getArgs();
+        int type = logAnnotation.type();
+        String username;
+        if (type == 0)
+            username = ((UserLoginVo) args[0]).getPhone();
+        else
+            username = AuthUtil.getUsername(request);
         String ip = IpUtil.getIpAddress(request);
         String ipSource = IpUtil.getCityInfo(ip);
         Map<String, String> userAgent = userAgentUtil.parseOsAndBrowser(request.getHeader("User-Agent"));
@@ -95,7 +106,7 @@ public class LogAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
-        String username = JwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
+        String username = AuthUtil.getUsername(request);
         String uri = request.getRequestURI();
         String method = request.getMethod();
         String error = ErrorUtil.getStackTrace(exception);

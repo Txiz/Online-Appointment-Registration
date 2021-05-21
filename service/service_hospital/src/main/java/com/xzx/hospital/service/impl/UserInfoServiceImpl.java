@@ -42,7 +42,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     private PatientInfoMapper patientInfoMapper;
 
     @Resource
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public R loginByPhone(UserLoginVo userLoginVo) {
@@ -52,7 +52,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         if (StringUtils.isEmpty(phone)) return R.error().message("手机号不能为空！");
         if (StringUtils.isEmpty(code)) return R.error().message("验证码不能为空！");
         // 从redis中获取当前有效的验证码
-        String redisCode = redisTemplate.opsForValue().get(phone);
+        String redisCode = (String) redisTemplate.opsForValue().get(phone);
         if (!code.equals(redisCode)) return R.error().message("验证码错误！");
         // TODO 跟支付宝绑定
         // 判断是否是第一次登录
@@ -64,7 +64,15 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             // TODO 填充数据
             userInfo.setPhone(phone);
             save(userInfo);
+            // redis缓存，注册人数 + 1
+            Integer registerNum = (Integer) redisTemplate.opsForValue().get("register_num");
+            if (registerNum == null) registerNum = 0;
+            redisTemplate.opsForValue().set("register_num", registerNum + 1);
         }
+        // redis缓存，登录人数 + 1
+        Integer loginNum = (Integer) redisTemplate.opsForValue().get("login_num");
+        if (loginNum == null) loginNum = 0;
+        redisTemplate.opsForValue().set("login_num", loginNum + 1);
         // 判断当前用户是否可用
         if (userInfo.getIsEnable() != null && !userInfo.getIsEnable().equals(1)) return R.error().message("当前用户未启用！");
         // 封装结果集

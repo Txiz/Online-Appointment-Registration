@@ -1,4 +1,4 @@
-package com.xzx.task.mapper;
+package com.xzx.hospital.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xzx.model.entity.Log;

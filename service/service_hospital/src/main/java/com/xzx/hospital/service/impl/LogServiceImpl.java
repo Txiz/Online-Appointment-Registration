@@ -1,13 +1,13 @@
-package com.xzx.task.service.impl;
+package com.xzx.hospital.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xzx.common.result.R;
+import com.xzx.hospital.mapper.LogMapper;
+import com.xzx.hospital.service.LogService;
 import com.xzx.model.entity.Log;
 import com.xzx.model.vo.LogQueryVo;
-import com.xzx.task.mapper.LogMapper;
-import com.xzx.task.service.LogService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +62,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log> implements LogSe
     }
 
     @Override
-    public R removeLogByLogId(Integer logId) {
+    public R removeLog(Integer logId) {
         return removeById(logId) ? R.ok().message("登录日志删除成功!") : R.error().message("登录日志删除失败!");
     }
 }
