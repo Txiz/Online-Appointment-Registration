@@ -62,6 +62,21 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+        <!-- 客户端负载均衡loadbalancer-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <!-- 没有会有一个warning：Spring Cloud LoadBalancer is currently working with the default cache. You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath-->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+        <!-- 解决IO Exception：Too many bytes -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
         <!-- Mysql -->
         <dependency>
             <groupId>mysql</groupId>
@@ -129,11 +144,6 @@
         <dependency>
             <groupId>com.xzx</groupId>
             <artifactId>model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.xzx</groupId>
-            <artifactId>client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

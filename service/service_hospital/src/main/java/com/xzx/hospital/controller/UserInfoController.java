@@ -1,6 +1,7 @@
 package com.xzx.hospital.controller;
 
 
+import com.xzx.common.annotation.LogAnnotation;
 import com.xzx.common.result.R;
 import com.xzx.hospital.service.UserInfoService;
 import com.xzx.model.vo.UserAuthVo;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import static com.xzx.common.constant.LogConstant.LOGIN_LOG;
+import static com.xzx.common.constant.LogConstant.OPERATE_LOG;
 
 /**
  * <p>
@@ -31,42 +35,49 @@ public class UserInfoController {
 
     @ApiOperation(value = "手机号登录用户")
     @PostMapping("/loginByPhone")
+    @LogAnnotation(description = "手机号登录用户", type = LOGIN_LOG)
     public R loginByPhone(@RequestBody UserLoginVo userLoginVo) {
         return userInfoService.loginByPhone(userLoginVo);
     }
 
     @ApiOperation(value = "用户信息认证")
     @PostMapping("/auth")
+    @LogAnnotation(description = "用户信息认证", type = OPERATE_LOG)
     public R authUserInfo(@RequestBody UserAuthVo userAuthVo, HttpServletRequest request) {
         return userInfoService.authUserInfo(userAuthVo, request);
     }
 
     @ApiOperation(value = "获取用户信息")
     @GetMapping("/get")
+    @LogAnnotation(description = "获取用户信息", type = OPERATE_LOG)
     public R getUserInfo(HttpServletRequest request) {
         return userInfoService.getUserInfo(request);
     }
 
     @ApiOperation(value = "根据表id获取用户信息")
     @GetMapping("/{id}")
+    @LogAnnotation(description = "根据表id获取用户信息", type = OPERATE_LOG)
     public R getUserInfoById(@PathVariable Integer id) {
         return userInfoService.getUserInfoById(id);
     }
 
     @ApiOperation(value = "根据表id锁定用户信息")
     @GetMapping("/lock/{id}/{isEnable}")
+    @LogAnnotation(description = "根据表id锁定用户信息", type = OPERATE_LOG)
     public R lockUserInfo(@PathVariable Integer id, @PathVariable Integer isEnable) {
         return userInfoService.lockUserInfo(id, isEnable);
     }
 
     @ApiOperation(value = "根据表id认证用户信息")
     @GetMapping("/approval/{id}/{authStatus}")
+    @LogAnnotation(description = "根据表id认证用户信息", type = OPERATE_LOG)
     public R approvalUserInfo(@PathVariable Integer id, @PathVariable Integer authStatus) {
         return userInfoService.approvalUserInfo(id, authStatus);
     }
 
     @ApiOperation(value = "分页查询所有用户信息列表")
     @PostMapping("/page/{current}/{size}")
+    @LogAnnotation(description = "分页查询所有用户信息列表", type = OPERATE_LOG)
     public R pageUserInfo(@PathVariable Integer current, @PathVariable Integer size, @RequestBody(required = false) UserQueryVo userQueryVo) {
         return userInfoService.pageUserInfo(current, size, userQueryVo);
     }

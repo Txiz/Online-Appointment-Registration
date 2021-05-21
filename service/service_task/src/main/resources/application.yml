@@ -11,7 +11,7 @@ spring:
   # 数据库
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xzx-security?serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/xzx-hospital?serverTimezone=GMT%2B8
     username: root
     password: xzx123
   # 文件上传参数
@@ -46,7 +46,3 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
-
-#feign:
-#  httpclient:
-#    enabled: true

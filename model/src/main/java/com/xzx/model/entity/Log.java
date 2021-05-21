@@ -29,7 +29,7 @@ public class Log implements Serializable {
     @TableId(value = "log_id", type = IdType.AUTO)
     private Integer logId;
 
-    @ApiModelProperty(value = "方法类型 0：登录日志 1：操作日志 2：异常日志")
+    @ApiModelProperty(value = "方法类型 0：登录日志 1：操作日志 2：异常日志 3: 外部请求")
     private Integer logType;
 
     @ApiModelProperty(value = "用户名称")

@@ -1,6 +1,7 @@
 package com.xzx.hospital.controller;
 
 
+import com.xzx.common.annotation.LogAnnotation;
 import com.xzx.common.result.R;
 import com.xzx.hospital.service.PatientInfoService;
 import com.xzx.model.entity.PatientInfo;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import static com.xzx.common.constant.LogConstant.OPERATE_LOG;
 
 /**
  * <p>
@@ -29,30 +32,35 @@ public class PatientInfoController {
 
     @ApiOperation(value = "保存就诊人信息")
     @PostMapping("/save")
+    @LogAnnotation(description = "保存就诊人信息", type = OPERATE_LOG)
     public R savePatientInfo(@RequestBody PatientInfo patientInfo, HttpServletRequest request) {
         return patientInfoService.savePatientInfo(patientInfo, request);
     }
 
     @ApiOperation(value = "更新就诊人信息")
     @PostMapping("/update")
+    @LogAnnotation(description = "更新就诊人信息", type = OPERATE_LOG)
     public R updatePatientInfo(@RequestBody PatientInfo patientInfo) {
         return patientInfoService.updatePatientInfo(patientInfo);
     }
 
     @ApiOperation(value = "根据表id获取就诊人信息")
     @GetMapping("/{id}")
+    @LogAnnotation(description = "根据表id获取就诊人信息", type = OPERATE_LOG)
     public R getPatientInfo(@PathVariable Integer id) {
         return patientInfoService.getPatientInfo(id);
     }
 
     @ApiOperation(value = "根据表id逻辑删除就诊人信息")
     @DeleteMapping("/{id}")
+    @LogAnnotation(description = "根据表id逻辑删除就诊人信息", type = OPERATE_LOG)
     public R removePatientInfo(@PathVariable Integer id) {
         return patientInfoService.removePatientInfo(id);
     }
 
     @ApiOperation(value = "查询所有就诊人信息列表")
     @GetMapping("/list")
+    @LogAnnotation(description = "查询所有就诊人信息列表", type = OPERATE_LOG)
     public R listPatientInfo(HttpServletRequest request) {
         return patientInfoService.listPatientInfo(request);
     }

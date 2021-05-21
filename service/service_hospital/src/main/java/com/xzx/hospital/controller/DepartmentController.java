@@ -1,5 +1,6 @@
 package com.xzx.hospital.controller;
 
+import com.xzx.common.annotation.LogAnnotation;
 import com.xzx.common.result.R;
 import com.xzx.hospital.service.DepartmentService;
 import io.swagger.annotations.Api;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+
+import static com.xzx.common.constant.LogConstant.OPERATE_LOG;
 
 /**
  * 部门科室控制器
@@ -26,6 +29,7 @@ public class DepartmentController {
 
     @ApiOperation(value = "根据医院编号查询所有的部门科室并组装成列表树")
     @GetMapping("list/{hospitalCode}")
+    @LogAnnotation(description = "根据医院编号查询所有的部门科室并组装成列表树", type = OPERATE_LOG)
     public R listDepartmentVo(@PathVariable String hospitalCode) {
         return departmentService.listDepartmentVo(hospitalCode);
     }
