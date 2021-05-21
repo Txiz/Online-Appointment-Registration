@@ -24,7 +24,7 @@ public class HospitalInfoController {
 
     @ApiOperation(value = "分页查询所有医院信息列表")
     @PostMapping("/page/{current}/{size}")
-    public R pageHospitalInfo(@PathVariable Integer current, @PathVariable Integer size, @RequestBody(required = false) HospitalInfoQueryVo hospitalInfoQueryVo) {
+    public R pageHospitalInfo(@PathVariable Integer current, @PathVariable Integer size, HospitalInfoQueryVo hospitalInfoQueryVo) {
         return hospitalInfoService.pageHospitalInfo(current, size, hospitalInfoQueryVo);
     }
 

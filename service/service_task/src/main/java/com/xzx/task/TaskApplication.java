@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  **/
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("com.xzx.hospital.mapper")
+@MapperScan("com.xzx.task.mapper")
 @ComponentScan({"com.xzx"})
 public class TaskApplication {
     public static void main(String[] args) {

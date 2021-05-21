@@ -12,6 +12,7 @@ import com.xzx.hospital.service.HospitalInfoService;
 import com.xzx.model.entity.HospitalInfo;
 import com.xzx.model.entity.HospitalSet;
 import com.xzx.model.vo.HospitalInfoQueryVo;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -105,7 +106,8 @@ public class HospitalInfoServiceImpl implements HospitalInfoService {
                 .withIgnoreCase(true);
         // 查询视图对象转换为医院信息对象
         HospitalInfo hospitalInfo = new HospitalInfo();
-        BeanUtils.copyProperties(hospitalInfoQueryVo, hospitalInfo);
+        if (!ObjectUtils.isEmpty(hospitalInfoQueryVo))
+            BeanUtils.copyProperties(hospitalInfoQueryVo, hospitalInfo);
         // 创建条件对象
         Example<HospitalInfo> example = Example.of(hospitalInfo, matcher);
         // 调用方法实现分页查询
