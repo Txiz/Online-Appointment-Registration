@@ -11,11 +11,28 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 19/05/2021 14:37:29
+ Date: 21/05/2021 14:41:40
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for tb_banner
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_banner`;
+CREATE TABLE `tb_banner`  (
+  `banner_id` int NOT NULL AUTO_INCREMENT COMMENT '轮播图id',
+  `banner_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '轮播图路径',
+  `is_enable` tinyint NULL DEFAULT 1 COMMENT '状态（0：锁定 1：正常）',
+  `is_delete` tinyint NULL DEFAULT 0 COMMENT '逻辑删除 0：未删除    1:已删除',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`banner_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_banner
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_data_dictionary
@@ -3485,6 +3502,11 @@ CREATE TABLE `tb_log`  (
 -- ----------------------------
 -- Records of tb_log
 -- ----------------------------
+INSERT INTO `tb_log` VALUES (67, 0, '17721233871', NULL, NULL, NULL, NULL, '10.206.81.80', '内网IP|内网IP', 'Windows 10', 'Edge 90.0.818.62', 1799, '2021-05-21 14:12:05');
+INSERT INTO `tb_log` VALUES (68, 0, '17721233871', NULL, NULL, NULL, NULL, '10.206.81.80', '内网IP|内网IP', 'Windows 10', 'Edge 90.0.818.62', 1740, '2021-05-21 14:37:41');
+INSERT INTO `tb_log` VALUES (69, 1, '17721233871', '/hospital/user-info/get', 'GET', '获取用户信息', NULL, '10.206.81.80', '内网IP|内网IP', 'Windows 10', 'Edge 90.0.818.62', 18, '2021-05-21 14:38:41');
+INSERT INTO `tb_log` VALUES (70, 2, '17721233871', '/hospital/user-info/1', 'GET', NULL, 'java.lang.NullPointerException\r\n	at com.xzx.hospital.service.impl.UserInfoServiceImpl.setOtherParam(UserInfoServiceImpl.java:171)\r\n	at com.xzx.hospital.service.impl.UserInfoServiceImpl.getUserInfoById(UserInfoServiceImpl.java:121)\r\n	at com.xzx.hospital.service.impl.UserInfoServiceImpl$$FastClassBySpringCGLIB$$d160316.invoke(<generated>)\r\n	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)\r\n	at com.xzx.hospital.service.impl.UserInfoServiceImpl$$EnhancerBySpringCGLIB$$81dde03c.getUserInfoById(<generated>)\r\n	at com.xzx.hospital.controller.UserInfoController.getUserInfoById(UserInfoController.java:61)\r\n	at com.xzx.hospital.controller.UserInfoController$$FastClassBySpringCGLIB$$11e2d458.invoke(<generated>)\r\n	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)\r\n	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:779)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)\r\n	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)\r\n	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:64)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)\r\n	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)\r\n	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)\r\n	at com.xzx.hospital.aspect.LogAspect.around(LogAspect.java:56)\r\n	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.lang.reflect.Method.invoke(Method.java:498)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:634)\r\n	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:624)\r\n	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:72)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:175)\r\n	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)\r\n	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)\r\n	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)\r\n	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)\r\n	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)\r\n	at com.xzx.hospital.controller.UserInfoController$$EnhancerBySpringCGLIB$$cac8efdc.getUserInfoById(<generated>)\r\n	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.lang.reflect.Method.invoke(Method.java:498)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:197)\r\n	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:141)\r\n	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:894)\r\n	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)\r\n	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)\r\n	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1060)\r\n	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:962)\r\n	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)\r\n	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)\r\n	at javax.servlet.http.HttpServlet.service(HttpServlet.java:626)\r\n	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)\r\n	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733)\r\n	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\r\n	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\r\n	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)\r\n	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\r\n	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)\r\n	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\r\n	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)\r\n	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)\r\n	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\r\n	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\r\n	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)\r\n	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)\r\n	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)\r\n	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)\r\n	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)\r\n	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)\r\n	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)\r\n	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)\r\n	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)\r\n	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893)\r\n	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1707)\r\n	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)\r\n	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\r\n	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\r\n	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)\r\n	at java.lang.Thread.run(Thread.java:748)\r\n', '10.206.81.80', '内网IP|内网IP', 'Windows 10', 'Edge 90.0.818.62', NULL, '2021-05-21 14:38:59');
+INSERT INTO `tb_log` VALUES (71, 1, '17721233871', '/hospital/user-info/9', 'GET', '根据表id获取用户信息', NULL, '10.206.81.80', '内网IP|内网IP', 'Windows 10', 'Edge 90.0.818.62', 12, '2021-05-21 14:40:18');
 
 -- ----------------------------
 -- Table structure for tb_patient_info
@@ -3522,6 +3544,41 @@ CREATE TABLE `tb_patient_info`  (
 -- ----------------------------
 -- Records of tb_patient_info
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_statistics
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_statistics`;
+CREATE TABLE `tb_statistics`  (
+  `statistics_id` int NOT NULL AUTO_INCREMENT COMMENT '统计自增主键',
+  `statistics_date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '统计日期',
+  `login_num` int NULL DEFAULT NULL COMMENT '统计当日登录人数',
+  `register_num` int NULL DEFAULT NULL COMMENT '统计当日注册人数',
+  `exception_num` int NULL DEFAULT NULL COMMENT '统计当日新增异常',
+  `is_delete` tinyint NULL DEFAULT 0 COMMENT '逻辑删除 0：未删除    1:已删除',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`statistics_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_statistics
+-- ----------------------------
+INSERT INTO `tb_statistics` VALUES (1, '2021-03-28', 8, 2, 10, 0, '2021-04-01 23:39:03');
+INSERT INTO `tb_statistics` VALUES (2, '2021-03-29', 7, 3, 1, 0, '2021-04-12 23:39:23');
+INSERT INTO `tb_statistics` VALUES (3, '2021-03-30', 10, 22, 1, 0, '2021-04-12 23:41:12');
+INSERT INTO `tb_statistics` VALUES (4, '2021-03-31', 5, 5, 0, 0, '2021-04-12 23:41:15');
+INSERT INTO `tb_statistics` VALUES (5, '2021-04-01', 8, 3, 2, 0, '2021-04-12 23:41:18');
+INSERT INTO `tb_statistics` VALUES (6, '2021-04-02', 3, 3, 7, 0, '2021-04-12 23:41:20');
+INSERT INTO `tb_statistics` VALUES (7, '2021-04-03', 2, 7, 5, 0, '2021-04-12 23:41:23');
+INSERT INTO `tb_statistics` VALUES (8, '2021-04-04', 11, 5, 2, 0, '2021-04-12 23:41:25');
+INSERT INTO `tb_statistics` VALUES (9, '2021-04-05', 18, 3, 5, 0, '2021-04-12 23:41:27');
+INSERT INTO `tb_statistics` VALUES (10, '2021-04-06', 7, 6, 5, 0, '2021-04-12 23:41:27');
+INSERT INTO `tb_statistics` VALUES (11, '2021-04-07', 21, 10, 4, 0, '2021-04-12 23:41:27');
+INSERT INTO `tb_statistics` VALUES (12, '2021-04-08', 20, 0, 3, 0, '2021-04-12 23:41:27');
+INSERT INTO `tb_statistics` VALUES (13, '2021-04-09', 5, 0, 2, 0, '2021-04-12 23:41:27');
+INSERT INTO `tb_statistics` VALUES (14, '2021-04-10', 8, 0, 1, 0, '2021-04-12 23:41:27');
+INSERT INTO `tb_statistics` VALUES (15, '2021-04-11', 5, 2, 1, 0, '2021-04-13 19:41:58');
+INSERT INTO `tb_statistics` VALUES (16, '2021-04-12', 13, 2, 7, 0, '2021-04-13 19:42:03');
 
 -- ----------------------------
 -- Table structure for tb_user_info
