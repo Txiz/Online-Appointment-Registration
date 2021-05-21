@@ -156,7 +156,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         Page<UserInfo> userInfoPage = new Page<>(current, size);
         page(userInfoPage, wrapper);
         userInfoPage.getRecords().forEach(this::setOtherParam);
-        return R.ok().data("userInfoList", userInfoPage.getRecords()).message("分页查询所有用户信息列表");
+        return R.ok().data("userInfoList", userInfoPage.getRecords()).data("total", userInfoPage.getTotal()).message("分页查询所有用户信息列表成功！");
     }
 
     public UserInfo setOtherParam(UserInfo userInfo) {
