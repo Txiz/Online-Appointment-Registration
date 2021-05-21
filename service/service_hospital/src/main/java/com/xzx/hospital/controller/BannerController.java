@@ -50,6 +50,13 @@ public class BannerController {
         return bannerService.removeBanner(bannerId);
     }
 
+    @ApiOperation(value = "启用轮播图")
+    @PutMapping("/enable/{bannerId}/{isEnable}")
+    @LogAnnotation(description = "启用轮播图", type = OPERATE_LOG)
+    public R enableBanner(@PathVariable Integer bannerId, @PathVariable Integer isEnable) {
+        return bannerService.enableBanner(bannerId, isEnable);
+    }
+
     @ApiOperation(value = "查询轮播图列表")
     @GetMapping("/list")
     @LogAnnotation(description = "查询轮播图列表", type = OPERATE_LOG)

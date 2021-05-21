@@ -20,5 +20,7 @@ public interface BannerService extends IService<Banner> {
 
     R removeBanner(Integer bannerId);
 
+    R enableBanner(Integer bannerId, Integer isEnable);
+
     R listBanner();
 }

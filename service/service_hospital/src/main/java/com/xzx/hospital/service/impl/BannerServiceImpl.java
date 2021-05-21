@@ -1,5 +1,6 @@
 package com.xzx.hospital.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xzx.common.result.R;
@@ -43,7 +44,16 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner> impleme
     }
 
     @Override
+    public R enableBanner(Integer bannerId, Integer isEnable) {
+        Banner banner = getById(bannerId);
+        banner.setIsEnable(isEnable);
+        return updateById(banner) ? R.ok().message("启用轮播图成功！") : R.ok().message("启用轮播图失败！");
+    }
+
+    @Override
     public R listBanner() {
-        return R.ok().data("bannerList", list()).message("查询轮播图列表成功！");
+        QueryWrapper<Banner> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_enable", 1);
+        return R.ok().data("bannerList", list(wrapper)).message("查询轮播图列表成功！");
     }
 }
