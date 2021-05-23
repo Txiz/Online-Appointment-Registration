@@ -11,6 +11,6 @@ public class AuthUtil {
 
     public static String getUsername(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        return JwtUtil.getUsernameFromToken(token);
+        return token == null ? null : JwtUtil.getUsernameFromToken(token);
     }
 }
