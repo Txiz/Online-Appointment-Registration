@@ -68,7 +68,7 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
 
         // 表的名称
-        strategy.setInclude("tb_patient_info");
+        strategy.setInclude("tb_notice");
         //数据库表映射到实体的命名策略
         strategy.setNaming(NamingStrategy.underline_to_camel);
         //生成实体时去掉表前缀

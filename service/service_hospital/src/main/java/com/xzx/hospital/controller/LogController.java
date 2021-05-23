@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @since 2021-05-14
  */
 @RestController
-@RequestMapping("/task/log")
+@RequestMapping("/hospital/log")
 @Api(tags = "日志控制器")
 public class LogController {
 
