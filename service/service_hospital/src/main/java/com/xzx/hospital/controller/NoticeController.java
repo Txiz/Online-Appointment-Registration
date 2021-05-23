@@ -31,9 +31,17 @@ public class NoticeController {
     @ApiOperation(value = "保存公告")
     @PostMapping("/save")
     @LogAnnotation(description = "保存公告", type = OPERATE_LOG)
-    public R saveBanner(@RequestBody Notice notice) {
+    public R saveNotice(@RequestBody Notice notice) {
         return noticeService.saveNotice(notice);
     }
+
+    @ApiOperation(value = "更新公告")
+    @PostMapping("/update")
+    @LogAnnotation(description = "更新公告", type = OPERATE_LOG)
+    public R updateNotice(@RequestBody Notice notice) {
+        return noticeService.updateNotice(notice);
+    }
+
 
     @ApiOperation(value = "分页查询公告")
     @PostMapping("/page/{current}/{size}")

@@ -17,6 +17,8 @@ public interface NoticeService extends IService<Notice> {
 
     R saveNotice(Notice notice);
 
+    R updateNotice(Notice notice);
+
     R pageNotice(Integer current, Integer size, NoticeQueryVo noticeQueryVo);
 
     R getNotice(Integer noticeId);

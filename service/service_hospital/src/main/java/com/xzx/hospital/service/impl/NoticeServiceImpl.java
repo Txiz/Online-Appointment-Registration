@@ -31,6 +31,11 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     @Override
+    public R updateNotice(Notice notice) {
+        return updateById(notice) ? R.ok().message("更新就诊人信息成功！") : R.error().message("更新就诊人信息失败！");
+    }
+
+    @Override
     public R pageNotice(Integer current, Integer size, NoticeQueryVo noticeQueryVo) {
         Integer noticeType = noticeQueryVo.getNoticeType();
         String noticeTitle = noticeQueryVo.getNoticeTitle();
