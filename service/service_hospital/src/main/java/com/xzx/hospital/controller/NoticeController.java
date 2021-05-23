@@ -1,21 +1,73 @@
 package com.xzx.hospital.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.xzx.common.annotation.LogAnnotation;
+import com.xzx.common.result.R;
+import com.xzx.hospital.service.NoticeService;
+import com.xzx.model.entity.Notice;
+import com.xzx.model.vo.NoticeQueryVo;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
+
+import static com.xzx.common.constant.LogConstant.OPERATE_LOG;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author xzx
  * @since 2021-05-23
  */
 @RestController
-@RequestMapping("/admin/notice")
+@RequestMapping("/hospital/notice")
 public class NoticeController {
 
+    @Resource
+    private NoticeService noticeService;
+
+    @ApiOperation(value = "保存公告")
+    @PostMapping("/save")
+    @LogAnnotation(description = "保存公告", type = OPERATE_LOG)
+    public R saveBanner(@RequestBody Notice notice) {
+        return noticeService.saveNotice(notice);
+    }
+
+    @ApiOperation(value = "分页查询公告")
+    @PostMapping("/page/{current}/{size}")
+    @LogAnnotation(description = "分页查询公告", type = OPERATE_LOG)
+    public R pageNotice(@PathVariable Integer current, @PathVariable Integer size, @RequestBody NoticeQueryVo noticeQueryVo) {
+        return noticeService.pageNotice(current, size, noticeQueryVo);
+    }
+
+    @ApiOperation(value = "根据id查询公告")
+    @GetMapping("/{noticeId}")
+    @LogAnnotation(description = "根据id查询公告", type = OPERATE_LOG)
+    public R getNotice(@PathVariable Integer noticeId) {
+        return noticeService.getNotice(noticeId);
+    }
+
+    @ApiOperation(value = "根据id删除公告")
+    @DeleteMapping("/{noticeId}")
+    @LogAnnotation(description = "根据id删除公告", type = OPERATE_LOG)
+    public R removeNotice(@PathVariable Integer noticeId) {
+        return noticeService.removeNotice(noticeId);
+    }
+
+    @ApiOperation(value = "启用公告")
+    @PutMapping("/enable/{noticeId}/{isEnable}")
+    @LogAnnotation(description = "启用公告", type = OPERATE_LOG)
+    public R enableNotice(@PathVariable Integer noticeId, @PathVariable Integer isEnable) {
+        return noticeService.enableNotice(noticeId, isEnable);
+    }
+
+    @ApiOperation(value = "查询公告列表")
+    @GetMapping("/list")
+    @LogAnnotation(description = "查询公告列表", type = OPERATE_LOG)
+    public R listNotice() {
+        return noticeService.listNotice();
+    }
 }
 

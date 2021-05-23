@@ -1,11 +1,13 @@
 package com.xzx.hospital.service;
 
-import com.xzx.model.entity.Notice;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xzx.common.result.R;
+import com.xzx.model.entity.Notice;
+import com.xzx.model.vo.NoticeQueryVo;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author xzx
@@ -13,4 +15,15 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface NoticeService extends IService<Notice> {
 
+    R saveNotice(Notice notice);
+
+    R pageNotice(Integer current, Integer size, NoticeQueryVo noticeQueryVo);
+
+    R getNotice(Integer noticeId);
+
+    R removeNotice(Integer noticeId);
+
+    R enableNotice(Integer noticeId, Integer isEnable);
+
+    R listNotice();
 }

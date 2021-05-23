@@ -7,11 +7,12 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * 日志条件视图
  * 作者: xzx
  * 创建时间: 2021-05-14-15-16
  **/
 @Data
-@ApiModel(value = "用户登录视图", description = "")
+@ApiModel(value = "日志条件视图", description = "")
 public class LogQueryVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
