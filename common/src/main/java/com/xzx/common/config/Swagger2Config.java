@@ -1,18 +1,15 @@
 package com.xzx.common.config;
 
-import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.oas.annotations.EnableOpenApi;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +20,7 @@ import java.util.List;
  * 创建时间: 2021-04-26-22-56
  **/
 @Configuration
-@EnableSwagger2
+@EnableOpenApi
 public class Swagger2Config {
 
     @Bean
@@ -32,11 +29,12 @@ public class Swagger2Config {
                 .groupName("webApi")
                 .apiInfo(webApiInfo())
                 .select()
-                .paths(Predicates.not(PathSelectors.regex("/error.*")))// 错误路径不监控
-                .paths(PathSelectors.regex("/.*"))// 对根下所有路径进行监控
-                .build()
-                .securityContexts(securityContexts())
-                .securitySchemes(securitySchemes());
+                .apis(RequestHandlerSelectors.any())
+                .paths((PathSelectors.regex("/error.*").negate()))
+                .paths(PathSelectors.any())
+                .build();
+//                .securitySchemes(securitySchemes())
+//                .securityContexts(securityContexts());
     }
 
     private ApiInfo webApiInfo() {
@@ -47,31 +45,24 @@ public class Swagger2Config {
                 .build();
     }
 
-    private List<ApiKey> securitySchemes() {
-        List<ApiKey> apiKeyList = new ArrayList<>();
-        ApiKey apiKey = new ApiKey("Authorization", "Authorization", "Header");
-        apiKeyList.add(apiKey);
-        return apiKeyList;
+    private List<SecurityScheme> securitySchemes() {
+        List<SecurityScheme> securitySchemes = new ArrayList<>();
+        securitySchemes.add(new ApiKey("Authorization", "Authorization", "header"));
+        return securitySchemes;
     }
+
 
     private List<SecurityContext> securityContexts() {
-        List<SecurityContext> list = new ArrayList<>();
-        list.add(getContextPath("/hospital/.*"));
-        return list;
-    }
-
-    private SecurityContext getContextPath(String pathRegex) {
-        return SecurityContext.builder()
-                .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex(pathRegex))
-                .build();
+        List<SecurityContext> securityContexts = new ArrayList<>();
+        securityContexts.add(SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build());
+        return securityContexts;
     }
 
     private List<SecurityReference> defaultAuth() {
-        List<SecurityReference> defaultAuth = new ArrayList<>();
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
+        List<SecurityReference> defaultAuth = new ArrayList<>();
         defaultAuth.add(new SecurityReference("Authorization", authorizationScopes));
         return defaultAuth;
     }

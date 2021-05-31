@@ -29,6 +29,7 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <velocity.version>2.2</velocity.version>
         <swagger.version>2.9.2</swagger.version>
+        <knife.version>3.0.2</knife.version>
         <jwt.version>0.9.1</jwt.version>
         <core.version>4.5.20</core.version>
         <oss.version>3.1.0</oss.version>
@@ -91,15 +92,21 @@
                 <version>${velocity.version}</version>
             </dependency>
             <!-- Swagger2 -->
+<!--            <dependency>-->
+<!--                <groupId>io.springfox</groupId>-->
+<!--                <artifactId>springfox-swagger2</artifactId>-->
+<!--                <version>${swagger.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>io.springfox</groupId>-->
+<!--                <artifactId>springfox-swagger-ui</artifactId>-->
+<!--                <version>${swagger.version}</version>-->
+<!--            </dependency>-->
+            <!-- Knife4j -->
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife.version}</version>
             </dependency>
             <!-- JWT -->
             <dependency>
@@ -173,6 +180,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.5.0</version>
             </plugin>
         </plugins>
     </build>

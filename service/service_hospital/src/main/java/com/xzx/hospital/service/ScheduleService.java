@@ -20,4 +20,6 @@ public interface ScheduleService {
     R getScheduleRule(Integer current, Integer size, String hospitalCode, String departmentCode);
 
     R getSchedule(String hospitalCode, String departmentCode, String workDate);
+
+    R getBookingSchedule(Integer current, Integer size, String hospitalCode, String departmentCode);
 }

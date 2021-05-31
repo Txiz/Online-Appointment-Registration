@@ -6,6 +6,7 @@ import com.xzx.common.result.R;
 import com.xzx.hospital.service.NoticeService;
 import com.xzx.model.entity.Notice;
 import com.xzx.model.vo.NoticeQueryVo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import static com.xzx.common.constant.LogConstant.OPERATE_LOG;
  */
 @RestController
 @RequestMapping("/hospital/notice")
+@Api(tags = "公告控制器")
 public class NoticeController {
 
     @Resource

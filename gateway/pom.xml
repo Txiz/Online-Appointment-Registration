@@ -30,11 +30,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-        <!--客户端负载均衡loadbalancer，解决503的错误，因为2020的cloud移除了ribbon -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
         <!-- 没有会有一个warning：Spring Cloud LoadBalancer is currently working with the default cache. You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath-->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
