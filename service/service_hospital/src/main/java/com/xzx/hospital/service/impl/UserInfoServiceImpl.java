@@ -113,6 +113,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         wrapper.eq("phone", phone);
         UserInfo userInfo = getOne(wrapper);
+        userInfo = setOtherParam(userInfo);
         return R.ok().data("userInfo", userInfo).message("获取用户信息成功！");
     }
 

@@ -9,6 +9,7 @@ import com.xzx.hospital.mapper.HospitalSetMapper;
 import com.xzx.hospital.repository.DepartmentRepository;
 import com.xzx.hospital.repository.ScheduleRepository;
 import com.xzx.hospital.service.ScheduleService;
+import com.xzx.model.entity.Department;
 import com.xzx.model.entity.HospitalSet;
 import com.xzx.model.entity.Schedule;
 import com.xzx.model.vo.ScheduleRuleVo;
