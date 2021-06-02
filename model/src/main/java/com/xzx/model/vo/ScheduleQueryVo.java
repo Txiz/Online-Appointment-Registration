@@ -25,9 +25,6 @@ public class ScheduleQueryVo implements Serializable {
     @ApiModelProperty(value = "科室编号")
     private String departmentCode;
 
-//    @ApiModelProperty(value = "医生编号")
-//    private String doctorCode;
-
     @ApiModelProperty(value = "安排日期")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date workDate;

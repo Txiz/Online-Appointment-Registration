@@ -14,6 +14,7 @@
     <modules>
         <module>service_hospital</module>
         <module>service_task</module>
+        <module>service-imitate</module>
     </modules>
 
     <properties>

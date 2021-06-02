@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzx.imitate.mapper.StockMapper">
+
+    <select id="selectByIdForUpdate" resultType="com.xzx.imitate.entity.Stock">
+        select *
+        from tb_stock
+        where id = #{sid} for
+        update
+    </select>
+</mapper>

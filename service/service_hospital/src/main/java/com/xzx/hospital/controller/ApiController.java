@@ -22,7 +22,7 @@ import static com.xzx.common.constant.LogConstant.OUT_LOG;
  * 创建时间: 2021-04-30-15-09
  **/
 @RestController
-@RequestMapping("/api/hospital/")
+@RequestMapping("/hospital/api")
 @Api(tags = "第三方接口控制器")
 public class ApiController {
 

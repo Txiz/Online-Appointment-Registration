@@ -30,18 +30,3 @@ spring:
           predicates:
             - Path=/task/**
 
-#
-#feign:
-#  hystrix:
-#    enabled: true
-#  httpclient:
-#    enabled: true
-#    connection-timeout: 20000
-#    connection-timer-repeat: 30000
-#  client:
-#    config:
-#      default:
-#        connectTimeout: 20000
-#        readTimeout: 20000
-
-

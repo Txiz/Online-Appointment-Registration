@@ -77,10 +77,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         if (userInfo.getIsEnable() != null && !userInfo.getIsEnable().equals(1)) return R.error().message("当前用户未启用！");
         // 封装结果集
         Map<String, Object> map = new HashMap<>();
-        String name = userInfo.getRealName();
-        if (StringUtils.isEmpty(name)) name = userInfo.getNickName();
-        if (StringUtils.isEmpty(name)) name = userInfo.getPhone();
-        map.put("name", name);
+        map.put("name", userInfo.getPhone());
         String token = JwtUtil.generateToken(phone);
         map.put("token", token);
         map.put("head", TOKEN_HEAD);
