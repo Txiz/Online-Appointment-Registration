@@ -68,7 +68,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // 保存订单
         Order order = new Order();
 
-        return null;
+        return R.ok().message("测试成功！");
     }
 
     private OrderScheduleVo getOrderScheduleVo(String scheduleId) {
@@ -117,7 +117,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public R cancelOrder(Integer orderId) {
-        return null;
+        return R.ok().message("测试成功！");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.xzx.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -49,6 +50,7 @@ public class PatientInfo implements Serializable {
     @ApiModelProperty(value = "性别（0：男 1：女）")
     private Integer sex;
 
+    @JsonFormat(locale = "zh", pattern = "yyyy-MM-dd", timezone = "GMT=8")
     @ApiModelProperty(value = "出生年月")
     private Date birthdate;
 
