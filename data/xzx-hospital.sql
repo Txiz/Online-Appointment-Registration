@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 04/06/2021 15:10:10
+ Date: 09/06/2021 12:25:45
 */
 
 SET NAMES utf8mb4;
@@ -3497,7 +3497,7 @@ CREATE TABLE `tb_log`  (
   `times` int NULL DEFAULT NULL COMMENT '方法消耗时间',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 293 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 292 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_log
@@ -3822,12 +3822,66 @@ CREATE TABLE `tb_patient_info`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user_id`(`user_id`) USING BTREE,
   CONSTRAINT `tb_patient_info_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tb_user_info` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '就诊人表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '就诊人表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_patient_info
 -- ----------------------------
 INSERT INTO `tb_patient_info` VALUES (8, 9, '111111', '阿松大', '20001', '111', 1, '2021-06-02', 0, '110000', '110100', '110101', '1', '', '', '', '', NULL, 0, 0, 0, '2021-06-03 11:37:52', '2021-06-03 11:37:52');
+
+-- ----------------------------
+-- Table structure for tb_payment
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_payment`;
+CREATE TABLE `tb_payment`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `out_trade_number` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '对外业务编号',
+  `order_id` int NULL DEFAULT NULL COMMENT '订单id',
+  `payment_type` tinyint(1) NULL DEFAULT NULL COMMENT '支付类型（微信 支付宝）',
+  `trade_number` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '交易编号',
+  `total_amount` decimal(10, 2) NULL DEFAULT NULL COMMENT '支付金额',
+  `subject` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '交易内容',
+  `payment_status` tinyint NULL DEFAULT NULL COMMENT '支付状态',
+  `callback_content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '回调信息',
+  `callback_time` datetime(0) NULL DEFAULT NULL COMMENT '回调时间',
+  `is_delete` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除(1:已删除，0:未删除)',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_out_trade_no`(`out_trade_number`) USING BTREE,
+  INDEX `idx_order_id`(`order_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '支付信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_payment
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_refund
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_refund`;
+CREATE TABLE `tb_refund`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `out_trade_number` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '对外业务编号',
+  `order_id` int NULL DEFAULT NULL COMMENT '订单id',
+  `payment_type` tinyint NULL DEFAULT NULL COMMENT '支付类型（微信 支付宝）',
+  `trade_number` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '交易编号',
+  `total_amount` decimal(10, 2) NULL DEFAULT NULL COMMENT '退款金额',
+  `subject` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '交易内容',
+  `refund_status` tinyint NULL DEFAULT NULL COMMENT '退款状态',
+  `callback_content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '回调信息',
+  `callback_time` datetime(0) NULL DEFAULT NULL COMMENT '回调时间',
+  `is_delete` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除(1:已删除，0:未删除)',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_out_trade_no`(`out_trade_number`) USING BTREE,
+  INDEX `idx_order_id`(`order_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '退款信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_refund
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_statistics
