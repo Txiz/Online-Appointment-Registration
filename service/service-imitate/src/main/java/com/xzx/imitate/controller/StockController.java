@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-05-31
  */
 @RestController
-@RequestMapping("/seckill/stock")
+@RequestMapping("/imitate/stock")
 @Api(tags = "库存控制器")
 public class StockController {
 

@@ -3,6 +3,8 @@ package com.xzx.imitate.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xzx.imitate.entity.Order;
 
+import java.util.Map;
+
 /**
  * <p>
  * 服务类
@@ -13,7 +15,5 @@ import com.xzx.imitate.entity.Order;
  */
 public interface OrderService extends IService<Order> {
 
-    int createOrder1(int sid);
-
-    int createOrder2(int sid);
+    Map<String, Object> createOrder(Integer sid);
 }

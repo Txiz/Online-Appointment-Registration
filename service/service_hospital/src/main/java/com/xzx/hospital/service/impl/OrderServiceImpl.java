@@ -1,13 +1,18 @@
 package com.xzx.hospital.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xzx.common.constant.OrderStatusEnum;
 import com.xzx.common.result.R;
+import com.xzx.common.util.HttpRequestUtil;
+import com.xzx.common.util.MD5Util;
+import com.xzx.hospital.mapper.HospitalSetMapper;
 import com.xzx.hospital.mapper.OrderMapper;
 import com.xzx.hospital.mapper.PatientInfoMapper;
 import com.xzx.hospital.mapper.UserInfoMapper;
+import com.xzx.hospital.repository.DepartmentRepository;
 import com.xzx.hospital.repository.HospitalInfoRepository;
 import com.xzx.hospital.repository.ScheduleRepository;
 import com.xzx.hospital.service.OrderService;
@@ -15,16 +20,15 @@ import com.xzx.model.entity.*;
 import com.xzx.model.vo.OrderCountQueryVo;
 import com.xzx.model.vo.OrderCountVo;
 import com.xzx.model.vo.OrderQueryVo;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -48,11 +52,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private UserInfoMapper userInfoMapper;
 
     @Resource
+    private HospitalSetMapper hospitalSetMapper;
+
+    @Resource
     private HospitalInfoRepository hospitalInfoRepository;
+
+    @Resource
+    private DepartmentRepository departmentRepository;
 
     @Resource
     private ScheduleRepository scheduleRepository;
 
+    @Transactional
     @Override
     public R saveOrder(String scheduleId, Integer patientId) {
         // 获取就诊人信息
@@ -69,11 +80,55 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         Integer availableNumber = schedule.getAvailableNumber();
         // 判断当前剩余预约数是否是0
         if (availableNumber <= 0) return R.error().message("剩余预约号为0！");
-
+        // 获取医院请求地址
+        String hospitalApiUrl = hospitalSetMapper.getHospitalApiUrl(schedule.getHospitalCode());
+        // 获取签名密钥并加密
+        String signKey = hospitalSetMapper.getSignKey(schedule.getHospitalCode());
+        signKey = MD5Util.encrypt(signKey);
         // 创建订单
-        // 保存订单
         Order order = new Order();
-
+        String outTraderNumber = System.currentTimeMillis() + "" + new Random().nextInt(100);
+        order.setUserId(patientInfo.getUserId());
+        order.setOutTradeNumber(outTraderNumber);
+        order.setHospitalCode(schedule.getHospitalCode());
+        order.setHospitalName(hospitalInfo.getHospitalName());
+        order.setDepartmentCode(schedule.getDepartmentCode());
+        order.setDepartmentName(departmentRepository.getDepartmentByHospitalCodeAndDepartmentCode(schedule.getHospitalCode(), schedule.getDepartmentCode()).getDepartmentName());
+        order.setTitle(schedule.getTitle());
+        order.setScheduleId(schedule.getHospitalScheduleId());
+        order.setReserveDate(schedule.getWorkDate());
+        order.setReserveTime(schedule.getWorkTime());
+        order.setPatientId(patientId);
+        order.setPatientName(patientInfo.getRealName());
+        order.setPatientPhone(patientInfo.getPhone());
+        order.setOrderStatus(OrderStatusEnum.UNPAID.getStatus());
+        // 保存订单
+        if (!save(order)) return R.error().message("订单创建失败！");
+        // TODO 演示过程，仅传两个参数以作示例
+        // 构造请求参数
+        Map<String, Object> requestParameter = new HashMap<>();
+        requestParameter.put("hospitalScheduleId", order.getScheduleId());
+        requestParameter.put("signKey", signKey);
+        // 调用三方医院接口，实现预约挂号操作
+        JSONObject result = HttpRequestUtil.sendRequest(requestParameter, hospitalApiUrl + "/imitate/order/createOrder");
+        if (result.getInteger("code") == 20000) {
+            // 获得返回结果
+            JSONObject data = result.getJSONObject("data");
+            if (ObjectUtils.isEmpty(data)) throw new RuntimeException("远程订单返回结果异常！");
+            String id = data.getString("id");
+            Integer reserved = data.getInteger("reservedNumber");
+            Integer available = data.getInteger("availableNumber");
+            // 更新订单信息
+            order.setHospitalRecordId(id);
+            if (!updateById(order)) throw new RuntimeException("本地订单更新失败！");
+            // 更新排班
+            schedule.setReservedNumber(reserved);
+            schedule.setAvailableNumber(available);
+            schedule.setUpdateTime(new Date());
+            scheduleRepository.save(schedule);
+        } else {
+            throw new RuntimeException("远程订单请求失败！");
+        }
         return R.ok().message("测试成功！");
     }
 

@@ -1,19 +1,22 @@
 package com.xzx.imitate.controller;
 
 
-import com.google.common.util.concurrent.RateLimiter;
 import com.xzx.common.result.R;
+import com.xzx.common.util.HttpRequestUtil;
+import com.xzx.common.util.MD5Util;
 import com.xzx.imitate.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -24,7 +27,7 @@ import javax.annotation.Resource;
  * @since 2021-05-31
  */
 @RestController
-@RequestMapping("/seckill/order")
+@RequestMapping("/imitate/order")
 @Api(tags = "订单控制器")
 public class OrderController {
 
@@ -33,31 +36,29 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
-    RateLimiter rateLimiter = RateLimiter.create(3);
-
-    @GetMapping("/createOrder1/{sid}")
-    @ApiOperation("购买1")
-    public R createOrder1(@PathVariable int sid) {
-        LOGGER.info("等待时间：{}", rateLimiter.acquire());
-        LOGGER.info("购买物品编号sid=[{}]", sid);
-        try {
-            LOGGER.info("创建订单id：[{}]", orderService.createOrder1(sid));
-        } catch (Exception e) {
-            LOGGER.error("Exception：{}", e.getMessage());
-        }
-        return R.ok().data("sid", sid);
-    }
-
-    @GetMapping("/createOrder2/{sid}")
+    @PostMapping("/createOrder")
     @ApiOperation("购买2")
-    public R createOrder2(@PathVariable int sid) {
-        LOGGER.info("购买物品编号sid=[{}]", sid);
+    public R createOrder2(HttpServletRequest request) {
+        // 获取请求中的信息参数集合
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Map<String, Object> map = HttpRequestUtil.switchMap(parameterMap);
+        // 获取请求中的信息
+        String signKey = (String) map.get("signKey");
+        Integer hospitalScheduleId = Integer.parseInt((String) map.get("hospitalScheduleId"));
+        // 判断签名是否一致
+        if (!signKey.equals(MD5Util.encrypt("8sadexcaer"))) {
+            return R.error().message("医院签名不一致！");
+        }
+        // TODO 判断排班是否存在
+        // 创建订单
+        Map<String, Object> result = new HashMap<>();
         try {
-            LOGGER.info("创建订单id：[{}]", orderService.createOrder2(sid));
+            result = orderService.createOrder(hospitalScheduleId);
+            LOGGER.info("创建订单id：[{}]", result.get("id"));
         } catch (Exception e) {
             LOGGER.error("Exception：{}", e.getMessage());
         }
-        return R.ok().data("sid", sid);
+        return R.ok().data(result).message("创建订单成功！");
     }
 }
 

@@ -12,4 +12,9 @@
         from tb_hospital_set
         where hospital_code = #{hospitalCode}
     </select>
+    <select id="getHospitalApiUrl" resultType="java.lang.String">
+        select hospital_api_url
+        from tb_hospital_set
+        where hospital_code = #{hospitalCode}
+    </select>
 </mapper>

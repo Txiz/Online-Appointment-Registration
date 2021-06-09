@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -25,37 +28,29 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private StockMapper stockMapper;
 
-    @Override
-    public int createOrder1(int sid) {
-        // 检查库存，判断是否卖空
-        Stock stock = stockMapper.selectById(sid);
-        if (stock.getSale().equals(stock.getCount())) throw new RuntimeException("库存不足");
-        // 扣除库存
-        stock.setSale(stock.getSale() + 1);
-        if (stockMapper.updateById(stock) < 1) throw new RuntimeException("乐观锁更新失败");
-        //创建订单
-        Order order = new Order();
-        order.setSid(stock.getId());
-        order.setName(stock.getName());
-        save(order);
-        return order.getId();
-    }
-
     @Transactional
     @Override
-    public int createOrder2(int sid) {
+    public Map<String, Object> createOrder(Integer sid) {
+        // 判断订单ID是否存在
+        if (sid == null) throw new RuntimeException("订单ID为空");
         // 检查库存，判断是否卖空
         Stock stock = stockMapper.selectByIdForUpdate(sid);
         if (stock.getSale().equals(stock.getCount())) throw new RuntimeException("库存不足");
         // 扣除库存
         stock.setSale(stock.getSale() + 1);
-        if (stockMapper.updateById(stock) < 1) throw new RuntimeException("乐观锁更新失败");
+        if (stockMapper.updateById(stock) < 1) throw new RuntimeException("更新失败");
         //创建订单
         Order order = new Order();
         order.setSid(stock.getId());
         order.setName(stock.getName());
         order.setUid(1);
+        order.setCreateTime(new Date());
         save(order);
-        return order.getId();
+        // 结果集
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", order.getId());
+        map.put("reservedNumber", stock.getCount());
+        map.put("availableNumber", stock.getCount() - stock.getSale());
+        return map;
     }
 }

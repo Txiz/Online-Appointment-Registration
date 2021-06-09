@@ -16,4 +16,6 @@ public interface HospitalSetMapper extends BaseMapper<HospitalSet> {
     String getSignKey(String hospitalCode);
 
     String getHospitalNameByHospitalCode(String hospitalCode);
+
+    String getHospitalApiUrl(String hospitalCode);
 }

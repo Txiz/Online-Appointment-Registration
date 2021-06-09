@@ -36,8 +36,8 @@ public class OrderController {
     }
 
     @ApiOperation(value = "分页查询所有订单列表")
-    @GetMapping("/page/{current}/{size}")
-    public R pageOrder(@PathVariable Integer current, @PathVariable Integer size, OrderQueryVo orderQueryVo, HttpServletRequest request) {
+    @PostMapping("/page/{current}/{size}")
+    public R pageOrder(@PathVariable Integer current, @PathVariable Integer size, @RequestBody(required = false) OrderQueryVo orderQueryVo, HttpServletRequest request) {
         orderQueryVo.setUsername(AuthUtil.getUsername(request));
         return orderService.pageOrder(current, size, orderQueryVo);
     }

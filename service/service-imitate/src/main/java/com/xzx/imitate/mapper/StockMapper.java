@@ -13,5 +13,5 @@ import com.xzx.imitate.entity.Stock;
  */
 public interface StockMapper extends BaseMapper<Stock> {
 
-    Stock selectByIdForUpdate(int sid);
+    Stock selectByIdForUpdate(Integer sid);
 }
