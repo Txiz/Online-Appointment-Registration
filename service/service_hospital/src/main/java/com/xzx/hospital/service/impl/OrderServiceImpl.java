@@ -8,20 +8,20 @@ import com.xzx.common.result.R;
 import com.xzx.hospital.mapper.OrderMapper;
 import com.xzx.hospital.mapper.PatientInfoMapper;
 import com.xzx.hospital.mapper.UserInfoMapper;
+import com.xzx.hospital.repository.HospitalInfoRepository;
 import com.xzx.hospital.repository.ScheduleRepository;
 import com.xzx.hospital.service.OrderService;
-import com.xzx.model.entity.Order;
-import com.xzx.model.entity.PatientInfo;
-import com.xzx.model.entity.UserInfo;
+import com.xzx.model.entity.*;
 import com.xzx.model.vo.OrderCountQueryVo;
 import com.xzx.model.vo.OrderCountVo;
 import com.xzx.model.vo.OrderQueryVo;
-import com.xzx.model.vo.OrderScheduleVo;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +48,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private UserInfoMapper userInfoMapper;
 
     @Resource
+    private HospitalInfoRepository hospitalInfoRepository;
+
+    @Resource
     private ScheduleRepository scheduleRepository;
 
     @Override
@@ -55,15 +58,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // 获取就诊人信息
         PatientInfo patientInfo = patientInfoMapper.selectById(patientId);
         // 获取排班相关信息
-        OrderScheduleVo orderScheduleVo = getOrderScheduleVo(scheduleId);
+        Schedule schedule = scheduleRepository.findById(scheduleId).get();
+        HospitalInfo hospitalInfo = hospitalInfoRepository.getHospitalInfoByHospitalCode(schedule.getHospitalCode());
+        BookingRule bookingRule = hospitalInfo.getBookingRule();
+        DateTime startTime = getDateTime(new Date(), bookingRule.getReleaseTime());
+        DateTime endTime = getDateTime(new DateTime().plusDays(bookingRule.getCycle()).toDate(), bookingRule.getStopTime());
         // 判断当前时间是否还可以预约
-        if (new DateTime(orderScheduleVo.getStartTime()).isAfterNow() || new DateTime(orderScheduleVo.getEndTime()).isBeforeNow())
+        if (startTime.isAfterNow() || endTime.isBeforeNow())
             return R.error().message("当前时间已不可预约！");
-        Integer availableNumber = orderScheduleVo.getAvailableNumber();
+        Integer availableNumber = schedule.getAvailableNumber();
         // 判断当前剩余预约数是否是0
         if (availableNumber <= 0) return R.error().message("剩余预约号为0！");
-        // 剩余预约数-1
-        orderScheduleVo.setAvailableNumber(availableNumber - 1);
+
         // 创建订单
         // 保存订单
         Order order = new Order();
@@ -71,8 +77,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return R.ok().message("测试成功！");
     }
 
-    private OrderScheduleVo getOrderScheduleVo(String scheduleId) {
-        return null;
+    private DateTime getDateTime(Date date, String timeString) {
+        String dateTimeString = new DateTime(date).toString("yyyy-MM-dd") + " " + timeString;
+        return DateTimeFormat.forPattern("yyyy-MM-dd HH:mm").parseDateTime(dateTimeString);
     }
 
     @Override
