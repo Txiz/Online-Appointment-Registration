@@ -31,17 +31,11 @@ public class UserInfo implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "支付宝id")
-    private String openid;
-
     @ApiModelProperty(value = "手机号")
     private String phone;
 
     @ApiModelProperty(value = "用户姓名")
     private String realName;
-
-    @ApiModelProperty(value = "用户昵称")
-    private String nickName;
 
     @ApiModelProperty(value = "证件类型")
     private String certificatesType;
