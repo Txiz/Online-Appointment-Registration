@@ -27,7 +27,6 @@ public class HospitalInfoController {
 
     @ApiOperation(value = "分页查询所有医院信息列表")
     @PostMapping("/page/{current}/{size}")
-    @LogAnnotation(description = "分页查询所有医院信息列表", type = OPERATE_LOG)
     public R pageHospitalInfo(@PathVariable Integer current, @PathVariable Integer size, HospitalInfoQueryVo hospitalInfoQueryVo) {
         return hospitalInfoService.pageHospitalInfo(current, size, hospitalInfoQueryVo);
     }
@@ -41,14 +40,12 @@ public class HospitalInfoController {
 
     @ApiOperation(value = "根据表id获取医院信息")
     @GetMapping("/{id}")
-    @LogAnnotation(description = "根据表id获取医院信息", type = OPERATE_LOG)
     public R getHospitalInfo(@PathVariable String id) {
         return hospitalInfoService.getHospitalInfo(id);
     }
 
     @ApiOperation(value = "根据医院名称获取医院列表")
     @GetMapping("/listByHospitalName/{hospitalName}")
-    @LogAnnotation(description = "根据医院名称获取医院列表", type = OPERATE_LOG)
     public R listByHospitalName(@PathVariable String hospitalName) {
         return hospitalInfoService.listByHospitalName(hospitalName);
     }

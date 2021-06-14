@@ -101,7 +101,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setPatientId(patientId);
         order.setPatientName(patientInfo.getRealName());
         order.setPatientPhone(patientInfo.getPhone());
+        order.setAmount(schedule.getAmount());
         order.setOrderStatus(OrderStatusEnum.UNPAID.getStatus());
+        order.getParam().put("orderStatusString", OrderStatusEnum.getStatusNameByStatus(order.getOrderStatus()));
         // 保存订单
         if (!save(order)) return R.error().message("订单创建失败！");
         // TODO 演示过程，仅传两个参数以作示例
@@ -129,7 +131,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         } else {
             throw new RuntimeException("远程订单请求失败！");
         }
-        return R.ok().message("测试成功！");
+        return R.ok().data("orderId", order.getId()).message("订单保存成功！");
     }
 
     private DateTime getDateTime(Date date, String timeString) {

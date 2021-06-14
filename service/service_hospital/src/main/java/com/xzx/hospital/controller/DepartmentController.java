@@ -29,7 +29,6 @@ public class DepartmentController {
 
     @ApiOperation(value = "根据医院编号查询所有的部门科室并组装成列表树")
     @GetMapping("list/{hospitalCode}")
-    @LogAnnotation(description = "根据医院编号查询所有的部门科室并组装成列表树", type = OPERATE_LOG)
     public R listDepartmentVo(@PathVariable String hospitalCode) {
         return departmentService.listDepartmentVo(hospitalCode);
     }

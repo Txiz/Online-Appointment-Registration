@@ -49,14 +49,12 @@ public class UserInfoController {
 
     @ApiOperation(value = "获取用户信息")
     @GetMapping("/get")
-    @LogAnnotation(description = "获取用户信息", type = OPERATE_LOG)
     public R getUserInfo(HttpServletRequest request) {
         return userInfoService.getUserInfo(request);
     }
 
     @ApiOperation(value = "根据表id获取用户信息")
     @GetMapping("/{id}")
-    @LogAnnotation(description = "根据表id获取用户信息", type = OPERATE_LOG)
     public R getUserInfoById(@PathVariable Integer id) {
         return userInfoService.getUserInfoById(id);
     }
@@ -77,7 +75,6 @@ public class UserInfoController {
 
     @ApiOperation(value = "分页查询所有用户信息列表")
     @PostMapping("/page/{current}/{size}")
-    @LogAnnotation(description = "分页查询所有用户信息列表", type = OPERATE_LOG)
     public R pageUserInfo(@PathVariable Integer current, @PathVariable Integer size, @RequestBody(required = false) UserQueryVo userQueryVo) {
         return userInfoService.pageUserInfo(current, size, userQueryVo);
     }

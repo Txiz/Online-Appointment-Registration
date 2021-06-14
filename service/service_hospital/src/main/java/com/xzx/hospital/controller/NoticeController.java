@@ -47,14 +47,12 @@ public class NoticeController {
 
     @ApiOperation(value = "分页查询公告")
     @PostMapping("/page/{current}/{size}")
-    @LogAnnotation(description = "分页查询公告", type = OPERATE_LOG)
     public R pageNotice(@PathVariable Integer current, @PathVariable Integer size, @RequestBody NoticeQueryVo noticeQueryVo) {
         return noticeService.pageNotice(current, size, noticeQueryVo);
     }
 
     @ApiOperation(value = "根据id查询公告")
     @GetMapping("/{noticeId}")
-    @LogAnnotation(description = "根据id查询公告", type = OPERATE_LOG)
     public R getNotice(@PathVariable Integer noticeId) {
         return noticeService.getNotice(noticeId);
     }
@@ -75,7 +73,6 @@ public class NoticeController {
 
     @ApiOperation(value = "查询公告列表")
     @GetMapping("/list")
-    @LogAnnotation(description = "查询公告列表", type = OPERATE_LOG)
     public R listNotice() {
         return noticeService.listNotice();
     }

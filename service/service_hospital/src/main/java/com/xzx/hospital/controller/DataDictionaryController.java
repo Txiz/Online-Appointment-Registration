@@ -47,14 +47,12 @@ public class DataDictionaryController {
 
     @ApiOperation(value = "根据表id查询子数据字典")
     @GetMapping("/list/{id}")
-    @LogAnnotation(description = "导出数据字典", type = OPERATE_LOG)
     public R listDataDictionary(@PathVariable Integer id) {
         return dataDictionaryService.listDataDictionary(id);
     }
 
     @ApiOperation(value = "根据code获取下级节点")
     @GetMapping("/listByCode/{code}")
-    @LogAnnotation(description = "根据code获取下级节点", type = OPERATE_LOG)
     public R listByCode(@PathVariable String code) {
         return dataDictionaryService.listByCode(code);
     }

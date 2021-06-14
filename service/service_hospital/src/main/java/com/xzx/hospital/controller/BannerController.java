@@ -38,7 +38,6 @@ public class BannerController {
 
     @ApiOperation(value = "分页查询轮播图")
     @PostMapping("/page/{current}/{size}")
-    @LogAnnotation(description = "分页查询轮播图", type = OPERATE_LOG)
     public R pageBanner(@PathVariable Integer current, @PathVariable Integer size) {
         return bannerService.pageBanner(current, size);
     }
@@ -59,7 +58,6 @@ public class BannerController {
 
     @ApiOperation(value = "查询轮播图列表")
     @GetMapping("/list")
-    @LogAnnotation(description = "查询轮播图列表", type = OPERATE_LOG)
     public R listBanner() {
         return bannerService.listBanner();
     }

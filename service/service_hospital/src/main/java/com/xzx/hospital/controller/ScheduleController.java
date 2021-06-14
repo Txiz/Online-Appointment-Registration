@@ -29,21 +29,18 @@ public class ScheduleController {
 
     @ApiOperation(value = "根据医院编号和科室编号分页查询排班规则")
     @GetMapping("/getScheduleRule/{current}/{size}/{hospitalCode}/{departmentCode}")
-    @LogAnnotation(description = "根据医院编号和科室编号分页查询排班规则", type = OPERATE_LOG)
     public R getScheduleRule(@PathVariable Integer current, @PathVariable Integer size, @PathVariable String hospitalCode, @PathVariable String departmentCode) {
         return scheduleService.getScheduleRule(current, size, hospitalCode, departmentCode);
     }
 
     @ApiOperation(value = "根据医院编号、科室编号和工作日期查询工作计划")
     @GetMapping("/getSchedule/{hospitalCode}/{departmentCode}/{workDate}")
-    @LogAnnotation(description = "根据医院编号、科室编号和工作日期查询工作计划", type = OPERATE_LOG)
     public R getSchedule(@PathVariable String hospitalCode, @PathVariable String departmentCode, @PathVariable String workDate) {
         return scheduleService.getSchedule(hospitalCode, departmentCode, workDate);
     }
 
     @ApiOperation(value = "根据医院编号和科室编号分页查询可预约排班规则")
     @GetMapping("/getBookingSchedule/{current}/{size}/{hospitalCode}/{departmentCode}")
-    @LogAnnotation(description = "根据医院编号和科室编号分页查询可预约排班规则", type = OPERATE_LOG)
     public R getBookingSchedule(@PathVariable Integer current, @PathVariable Integer size, @PathVariable String hospitalCode, @PathVariable String departmentCode) {
         return scheduleService.getBookingSchedule(current, size, hospitalCode, departmentCode);
     }

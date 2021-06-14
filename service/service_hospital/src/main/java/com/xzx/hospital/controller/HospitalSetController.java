@@ -54,21 +54,18 @@ public class HospitalSetController {
 
     @ApiOperation(value = "根据表id获取医院集合")
     @GetMapping("/{id}")
-    @LogAnnotation(description = "根据表id获取医院集合", type = OPERATE_LOG)
     public R getHospitalSet(@PathVariable Integer id) {
         return hospitalSetService.getHospitalSet(id);
     }
 
     @ApiOperation(value = "查询所有医院集合列表")
     @GetMapping("/list")
-    @LogAnnotation(description = "查询所有医院集合列表", type = OPERATE_LOG)
     public R listHospitalSet() {
         return hospitalSetService.listHospitalSet();
     }
 
     @ApiOperation(value = "分页查询所有医院集合列表")
     @PostMapping("/page/{current}/{size}")
-    @LogAnnotation(description = "分页查询所有医院集合列表", type = OPERATE_LOG)
     public R pageHospitalSet(@PathVariable Integer current, @PathVariable Integer size, @RequestBody(required = false) HospitalSetQueryVo hospitalSetQueryVo) {
         return hospitalSetService.pageHospitalSet(current, size, hospitalSetQueryVo);
     }
@@ -82,7 +79,6 @@ public class HospitalSetController {
 
     @ApiOperation(value = "根据表id获取签名密钥")
     @PutMapping("/getSignKey/{id}")
-    @LogAnnotation(description = "根据表id获取签名密钥", type = OPERATE_LOG)
     public R getSignKeyById(@PathVariable Integer id) {
         return hospitalSetService.getSignKeyById(id);
     }

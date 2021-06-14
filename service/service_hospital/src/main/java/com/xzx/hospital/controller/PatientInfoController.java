@@ -46,7 +46,6 @@ public class PatientInfoController {
 
     @ApiOperation(value = "根据表id获取就诊人信息")
     @GetMapping("/{id}")
-    @LogAnnotation(description = "根据表id获取就诊人信息", type = OPERATE_LOG)
     public R getPatientInfo(@PathVariable Integer id) {
         return patientInfoService.getPatientInfo(id);
     }
@@ -60,7 +59,6 @@ public class PatientInfoController {
 
     @ApiOperation(value = "查询所有就诊人信息列表")
     @GetMapping("/list")
-    @LogAnnotation(description = "查询所有就诊人信息列表", type = OPERATE_LOG)
     public R listPatientInfo(HttpServletRequest request) {
         return patientInfoService.listPatientInfo(request);
     }

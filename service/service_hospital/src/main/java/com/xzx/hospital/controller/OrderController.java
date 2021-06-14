@@ -1,6 +1,7 @@
 package com.xzx.hospital.controller;
 
 
+import com.xzx.common.annotation.LogAnnotation;
 import com.xzx.common.result.R;
 import com.xzx.common.util.AuthUtil;
 import com.xzx.hospital.service.OrderService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import static com.xzx.common.constant.LogConstant.OPERATE_LOG;
 
 /**
  * <p>
@@ -31,6 +34,7 @@ public class OrderController {
 
     @ApiOperation(value = "保存订单")
     @GetMapping("/save/{scheduleId}/{patientId}")
+    @LogAnnotation(description = "保存订单", type = OPERATE_LOG)
     public R saveOrder(@PathVariable String scheduleId, @PathVariable Integer patientId) {
         return orderService.saveOrder(scheduleId, patientId);
     }
@@ -56,6 +60,7 @@ public class OrderController {
 
     @ApiOperation(value = "取消订单")
     @GetMapping("/cancel/{orderId}")
+    @LogAnnotation(description = "取消订单", type = OPERATE_LOG)
     public R cancelOrder(@PathVariable Integer orderId) {
         return orderService.cancelOrder(orderId);
     }

@@ -39,7 +39,6 @@ public class StatisticsController {
 
     @ApiOperation(value = "分页查询统计数据")
     @PostMapping("/page/{current}/{size}")
-    @LogAnnotation(description = "分页查询统计数据", type = OPERATE_LOG)
     public R pageStatistics(@PathVariable Integer current, @PathVariable Integer size, @RequestBody(required = false) StatisticsQueryVo statisticsQueryVo) {
         return statisticsService.pageStatistics(current, size, statisticsQueryVo);
     }
@@ -53,14 +52,12 @@ public class StatisticsController {
 
     @ApiOperation(value = "获取统计数据用于制作地图")
     @GetMapping("/getStatisticsDataForMap")
-    @LogAnnotation(description = "获取统计数据用于制作地图", type = OPERATE_LOG)
     public R getStatisticsDataForMap() {
         return statisticsService.getStatisticsDataForMap();
     }
 
     @ApiOperation(value = "从redis中获取当日临时统计数据")
     @GetMapping("/getCurrentStatisticsNum")
-    @LogAnnotation(description = "从redis中获取当日临时统计数据", type = OPERATE_LOG)
     public R getCurrentStatisticsNum() {
         return statisticsService.getCurrentStatisticsNum();
     }
