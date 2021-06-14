@@ -79,7 +79,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         // 判断是否存在数据
         Schedule info = scheduleRepository.
                 getScheduleByHospitalCodeAndHospitalScheduleId(schedule.getHospitalCode(), schedule.getHospitalScheduleId());
-        // TODO 更新未完成
         scheduleRepository.save(schedule);
     }
 

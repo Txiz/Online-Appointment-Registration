@@ -54,14 +54,12 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         // 从redis中获取当前有效的验证码
         String redisCode = (String) redisTemplate.opsForValue().get(phone);
         if (!code.equals(redisCode)) return R.error().message("验证码错误！");
-        // TODO 跟支付宝绑定
         // 判断是否是第一次登录
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         wrapper.eq("phone", phone);
         UserInfo userInfo = getOne(wrapper);
         if (userInfo == null) {
             userInfo = new UserInfo();
-            // TODO 填充数据
             userInfo.setPhone(phone);
             save(userInfo);
             // redis缓存，注册人数 + 1

@@ -5,6 +5,7 @@ import com.xzx.common.annotation.LogAnnotation;
 import com.xzx.common.result.R;
 import com.xzx.common.util.AuthUtil;
 import com.xzx.hospital.service.OrderService;
+import com.xzx.model.entity.Order;
 import com.xzx.model.vo.OrderCountQueryVo;
 import com.xzx.model.vo.OrderQueryVo;
 import io.swagger.annotations.Api;
@@ -37,6 +38,13 @@ public class OrderController {
     @LogAnnotation(description = "保存订单", type = OPERATE_LOG)
     public R saveOrder(@PathVariable String scheduleId, @PathVariable Integer patientId) {
         return orderService.saveOrder(scheduleId, patientId);
+    }
+
+    @ApiOperation(value = "更新订单")
+    @PostMapping("/update")
+    @LogAnnotation(description = "更新订单", type = OPERATE_LOG)
+    public R updateOrder(@RequestBody Order order) {
+        return orderService.updateOrder(order);
     }
 
     @ApiOperation(value = "分页查询所有订单列表")

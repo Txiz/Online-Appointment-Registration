@@ -36,9 +36,9 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
+    @ApiOperation("三方医院本地预约挂号")
     @PostMapping("/createOrder")
-    @ApiOperation("购买2")
-    public R createOrder2(HttpServletRequest request) {
+    public R createOrder(HttpServletRequest request) {
         // 获取请求中的信息参数集合
         Map<String, String[]> parameterMap = request.getParameterMap();
         Map<String, Object> map = HttpRequestUtil.switchMap(parameterMap);
@@ -49,7 +49,6 @@ public class OrderController {
         if (!signKey.equals(MD5Util.encrypt("8sadexcaer"))) {
             return R.error().message("医院签名不一致！");
         }
-        // TODO 判断排班是否存在
         // 创建订单
         Map<String, Object> result = new HashMap<>();
         try {
@@ -59,6 +58,30 @@ public class OrderController {
             LOGGER.error("Exception：{}", e.getMessage());
         }
         return R.ok().data(result).message("创建订单成功！");
+    }
+
+    @ApiOperation("三方医院本地取消挂号")
+    @PostMapping("/cancelOrder")
+    public R cancelOrder(HttpServletRequest request) {
+        // 获取请求中的信息参数集合
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Map<String, Object> map = HttpRequestUtil.switchMap(parameterMap);
+        // 获取请求中的信息
+        String signKey = (String) map.get("signKey");
+        Integer hospitalScheduleId = Integer.parseInt((String) map.get("hospitalScheduleId"));
+        // 判断签名是否一致
+        if (!signKey.equals(MD5Util.encrypt("8sadexcaer"))) {
+            return R.error().message("医院签名不一致！");
+        }
+        // 创建订单
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result = orderService.cancelOrder(hospitalScheduleId);
+            LOGGER.info("取消订单id：[{}]", result.get("id"));
+        } catch (Exception e) {
+            LOGGER.error("Exception：{}", e.getMessage());
+        }
+        return R.ok().data(result).message("取消订单成功！");
     }
 }
 

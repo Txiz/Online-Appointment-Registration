@@ -68,7 +68,6 @@ public class HospitalInfoServiceImpl implements HospitalInfoService {
         HospitalInfo hospitalInfo = JSONObject.parseObject(jsonString, HospitalInfo.class);
         // 判断是否存在数据
         HospitalInfo info = hospitalInfoRepository.getHospitalInfoByHospitalCode(hospitalInfo.getHospitalCode());
-        // TODO 更新未完成
         if (info != null) {
             // 不存在，则存在数据，更新操作
             hospitalInfo.setStatus(info.getStatus());

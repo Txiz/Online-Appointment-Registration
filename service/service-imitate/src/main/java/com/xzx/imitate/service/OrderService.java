@@ -16,4 +16,6 @@ import java.util.Map;
 public interface OrderService extends IService<Order> {
 
     Map<String, Object> createOrder(Integer sid);
+
+    Map<String, Object> cancelOrder(Integer sid);
 }

@@ -18,6 +18,8 @@ public interface OrderService extends IService<Order> {
 
     R saveOrder(String scheduleId, Integer patientId);
 
+    R updateOrder(Order order);
+
     R pageOrder(Integer current, Integer size, OrderQueryVo orderQueryVo);
 
     R getOrder(Integer orderId);

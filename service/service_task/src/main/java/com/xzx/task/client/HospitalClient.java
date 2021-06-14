@@ -2,6 +2,7 @@ package com.xzx.task.client;
 
 import com.xzx.common.config.FeignConfig;
 import com.xzx.common.result.R;
+import com.xzx.model.entity.Order;
 import com.xzx.model.entity.Statistics;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -23,6 +24,10 @@ public interface HospitalClient {
     @ApiOperation(value = "保存统计数据")
     @PostMapping("/hospital/statistics/save")
     R saveStatistics(@RequestBody Statistics statistics);
+
+    @ApiOperation(value = "更新订单")
+    @PostMapping("/hospital/order/update")
+    R updateOrder(@RequestBody Order order);
 
     @ApiOperation(value = "根据表id查询订单信息")
     @GetMapping("/hospital/order/get/{orderId}")

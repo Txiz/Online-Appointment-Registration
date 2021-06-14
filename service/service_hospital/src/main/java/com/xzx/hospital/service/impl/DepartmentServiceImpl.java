@@ -62,10 +62,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         // 将参数map转换为Department对象
         String jsonString = JSONObject.toJSONString(map);
         Department department = JSONObject.parseObject(jsonString, Department.class);
-        // 判断是否存在数据
-        Department info = departmentRepository.
-                getDepartmentByHospitalCodeAndDepartmentCode(department.getHospitalCode(), department.getDepartmentCode());
-        // TODO 更新未完成
         departmentRepository.save(department);
     }
 
@@ -94,7 +90,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         // 获取部门科室参数中的相关数据
         String hospitalCode = (String) map.get("hospitalCode");
         String departmentCode = (String) map.get("departmentCode");
-        // TODO 签名校验
         // 判断是否存在数据
         Department info = departmentRepository.getDepartmentByHospitalCodeAndDepartmentCode(hospitalCode, departmentCode);
         // 如果存在就根据表id删除

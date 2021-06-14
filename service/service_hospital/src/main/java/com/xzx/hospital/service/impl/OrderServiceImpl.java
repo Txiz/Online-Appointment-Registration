@@ -8,6 +8,7 @@ import com.xzx.common.constant.OrderStatusEnum;
 import com.xzx.common.result.R;
 import com.xzx.common.util.HttpRequestUtil;
 import com.xzx.common.util.MD5Util;
+import com.xzx.hospital.client.TaskClient;
 import com.xzx.hospital.mapper.HospitalSetMapper;
 import com.xzx.hospital.mapper.OrderMapper;
 import com.xzx.hospital.mapper.PatientInfoMapper;
@@ -63,6 +64,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private ScheduleRepository scheduleRepository;
 
+    @Resource
+    private TaskClient taskClient;
+
     @Transactional
     @Override
     public R saveOrder(String scheduleId, Integer patientId) {
@@ -103,7 +107,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setPatientPhone(patientInfo.getPhone());
         order.setAmount(schedule.getAmount());
         order.setOrderStatus(OrderStatusEnum.UNPAID.getStatus());
-        order.getParam().put("orderStatusString", OrderStatusEnum.getStatusNameByStatus(order.getOrderStatus()));
         // 保存订单
         if (!save(order)) return R.error().message("订单创建失败！");
         // 构造请求参数
@@ -147,6 +150,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
+    public R updateOrder(Order order) {
+        return updateById(order) ? R.ok().message("更新成功！订单ID：" + order.getId()) : R.error().message("更新失败！订单ID：" + order.getId());
+    }
+
+    @Override
     public R pageOrder(Integer current, Integer size, OrderQueryVo orderQueryVo) {
         // 设置当前用户
         String username = orderQueryVo.getUsername();
@@ -178,7 +186,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public R getOrder(Integer orderId) {
-        return R.ok().data("order", getById(orderId)).message("根据表id查询订单信息成功！");
+        Order order = getById(orderId);
+        order.getParam().put("orderStatusString", OrderStatusEnum.getStatusNameByStatus(order.getOrderStatus()));
+        return R.ok().data("order", order).message("根据表id查询订单信息成功！");
     }
 
     @Override
@@ -186,9 +196,40 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return R.ok().data("orderStatus", OrderStatusEnum.getStatusList()).message("获取订单状态成功！");
     }
 
+    @Transactional
     @Override
     public R cancelOrder(Integer orderId) {
-        return R.ok().message("测试成功！");
+        Integer code = taskClient.refund(orderId).getCode();
+        if (!code.equals(20000)) throw new RuntimeException("支付宝退款方法发生错误");
+        Order order = getById(orderId);
+        order.setOrderStatus(-1);
+        // 获取医院请求地址
+        String hospitalApiUrl = hospitalSetMapper.getHospitalApiUrl(order.getHospitalCode());
+        // 获取签名密钥并加密
+        String signKey = hospitalSetMapper.getSignKey(order.getHospitalCode());
+        signKey = MD5Util.encrypt(signKey);
+        // 构造请求参数
+        Map<String, Object> requestParameter = new HashMap<>();
+        requestParameter.put("hospitalScheduleId", order.getScheduleId());
+        requestParameter.put("signKey", signKey);
+        // 调用三方医院接口，实现预约挂号操作
+        JSONObject result = HttpRequestUtil.sendRequest(requestParameter, hospitalApiUrl + "/imitate/order/cancelOrder");
+        if (result.getInteger("code") == 20000) {
+            // 获得返回结果
+            JSONObject data = result.getJSONObject("data");
+            if (ObjectUtils.isEmpty(data)) throw new RuntimeException("远程订单返回结果异常！");
+            Integer reserved = data.getInteger("reservedNumber");
+            Integer available = data.getInteger("availableNumber");
+            Schedule schedule = scheduleRepository.getScheduleByHospitalCodeAndHospitalScheduleId(order.getHospitalCode(),order.getScheduleId());
+            // 更新排班
+            schedule.setReservedNumber(reserved);
+            schedule.setAvailableNumber(available);
+            schedule.setUpdateTime(new Date());
+            scheduleRepository.save(schedule);
+        } else {
+            throw new RuntimeException("远程订单请求失败！");
+        }
+        return updateById(order) ? R.ok().message("取消订单成功！") : R.error().message("取消订单失败！");
     }
 
     @Override
@@ -199,4 +240,5 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         map.put("countList", orderCountVoList.stream().map(OrderCountVo::getCount).collect(Collectors.toList()));
         return R.ok().data(map).message("获取订单统计数据成功！");
     }
+
 }

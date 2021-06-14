@@ -91,7 +91,6 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
         HospitalSet hospitalSet = getById(id);
         String signKey = hospitalSet.getSignKey();
         String hospitalCode = hospitalSet.getHospitalCode();
-        // TODO 发送短信
         return R.ok();
     }
 }

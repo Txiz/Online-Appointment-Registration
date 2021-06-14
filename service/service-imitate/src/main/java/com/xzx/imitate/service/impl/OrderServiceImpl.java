@@ -58,4 +58,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         map.put("quitTime", new Date());
         return map;
     }
+
+    @Override
+    public Map<String, Object> cancelOrder(Integer sid) {
+        // 判断订单ID是否存在
+        if (sid == null) throw new RuntimeException("订单ID为空");
+        // 检查库存，判断库存是否合法
+        Stock stock = stockMapper.selectByIdForUpdate(sid);
+        if (stock.getSale() <= 0) throw new RuntimeException("库存非法");
+        // 回退库存
+        stock.setSale(stock.getSale() - 1);
+        if (stockMapper.updateById(stock) < 1) throw new RuntimeException("更新失败");
+        // 结果集
+        Map<String, Object> map = new HashMap<>();
+        map.put("reservedNumber", stock.getCount());
+        map.put("availableNumber", stock.getCount() - stock.getSale());
+        return map;
+    }
 }
