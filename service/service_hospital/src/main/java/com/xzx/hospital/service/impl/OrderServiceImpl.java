@@ -106,7 +106,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.getParam().put("orderStatusString", OrderStatusEnum.getStatusNameByStatus(order.getOrderStatus()));
         // 保存订单
         if (!save(order)) return R.error().message("订单创建失败！");
-        // TODO 演示过程，仅传两个参数以作示例
         // 构造请求参数
         Map<String, Object> requestParameter = new HashMap<>();
         requestParameter.put("hospitalScheduleId", order.getScheduleId());
@@ -120,8 +119,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             String id = data.getString("id");
             Integer reserved = data.getInteger("reservedNumber");
             Integer available = data.getInteger("availableNumber");
+            Integer number = data.getInteger("number");
+            String fetchTime = data.getString("fetchTime");
+            String fetchAddress = data.getString("fetchAddress");
+            Date quitTime = data.getDate("quitTime");
             // 更新订单信息
             order.setHospitalRecordId(id);
+            order.setNumber(number);
+            order.setFetchTime(fetchTime);
+            order.setFetchAddress(fetchAddress);
+            order.setQuitTime(quitTime);
             if (!updateById(order)) throw new RuntimeException("本地订单更新失败！");
             // 更新排班
             schedule.setReservedNumber(reserved);

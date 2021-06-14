@@ -1,6 +1,7 @@
 package com.xzx.imitate.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xzx.common.util.RandomUtil;
 import com.xzx.imitate.entity.Order;
 import com.xzx.imitate.entity.Stock;
 import com.xzx.imitate.mapper.OrderMapper;
@@ -51,6 +52,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         map.put("id", order.getId());
         map.put("reservedNumber", stock.getCount());
         map.put("availableNumber", stock.getCount() - stock.getSale());
+        map.put("number", RandomUtil.getFourBitRandom());
+        map.put("fetchTime", "测试时间");
+        map.put("fetchAddress", "测试地址");
+        map.put("quitTime", new Date());
         return map;
     }
 }
