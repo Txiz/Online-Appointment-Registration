@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 09/06/2021 16:17:25
+ Date: 14/06/2021 20:45:30
 */
 
 SET NAMES utf8mb4;
@@ -28,11 +28,16 @@ CREATE TABLE `tb_order`  (
   `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '商品名称',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2054 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2067 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_order
 -- ----------------------------
+INSERT INTO `tb_order` VALUES (2062, 1, 1, '邵迎红', '2021-06-14 13:31:31');
+INSERT INTO `tb_order` VALUES (2063, 1, 1, '邵迎红', '2021-06-14 16:03:59');
+INSERT INTO `tb_order` VALUES (2064, 1, 1, '邵迎红', '2021-06-14 16:31:20');
+INSERT INTO `tb_order` VALUES (2065, 1, 1, '邵迎红', '2021-06-14 16:47:00');
+INSERT INTO `tb_order` VALUES (2066, 1, 1, '邵迎红', '2021-06-14 17:45:52');
 
 -- ----------------------------
 -- Table structure for tb_stock
@@ -49,6 +54,6 @@ CREATE TABLE `tb_stock`  (
 -- ----------------------------
 -- Records of tb_stock
 -- ----------------------------
-INSERT INTO `tb_stock` VALUES (1, '邵迎红', 33, 11);
+INSERT INTO `tb_stock` VALUES (1, '邵迎红', 33, 14);
 
 SET FOREIGN_KEY_CHECKS = 1;
