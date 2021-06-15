@@ -199,9 +199,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Transactional
     @Override
     public R cancelOrder(Integer orderId) {
-        Integer code = taskClient.refund(orderId).getCode();
-        if (!code.equals(20000)) throw new RuntimeException("支付宝退款方法发生错误");
         Order order = getById(orderId);
+        if (order.getOrderStatus().equals(1)) {
+            Integer code = taskClient.refund(orderId).getCode();
+            if (!code.equals(20000)) throw new RuntimeException("支付宝退款方法发生错误");
+        }
         order.setOrderStatus(-1);
         // 获取医院请求地址
         String hospitalApiUrl = hospitalSetMapper.getHospitalApiUrl(order.getHospitalCode());
@@ -220,7 +222,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             if (ObjectUtils.isEmpty(data)) throw new RuntimeException("远程订单返回结果异常！");
             Integer reserved = data.getInteger("reservedNumber");
             Integer available = data.getInteger("availableNumber");
-            Schedule schedule = scheduleRepository.getScheduleByHospitalCodeAndHospitalScheduleId(order.getHospitalCode(),order.getScheduleId());
+            Schedule schedule = scheduleRepository.getScheduleByHospitalCodeAndHospitalScheduleId(order.getHospitalCode(), order.getScheduleId());
             // 更新排班
             schedule.setReservedNumber(reserved);
             schedule.setAvailableNumber(available);
