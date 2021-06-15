@@ -52,7 +52,7 @@ public class Schedule implements Serializable {
     private String skill;
 
     @ApiModelProperty(value = "排班日期")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date workDate;
 
     @ApiModelProperty(value = "排班时间（0：上午 1：下午）")

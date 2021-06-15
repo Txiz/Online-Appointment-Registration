@@ -61,7 +61,7 @@ public class ApiImitateTest {
         map.put("logoData", jsonObject.getString("logoData"));
         JSONObject bookingRule = jsonObject.getJSONObject("bookingRule");
         map.put("bookingRule", bookingRule.toJSONString());
-        JSONObject response = HttpRequestUtil.sendRequest(map, "http://localhost:8001/api/hospital/saveHospitalInfo");
+        JSONObject response = HttpRequestUtil.sendRequest(map, "http://localhost:8000/hospital/api/saveHospitalInfo");
         System.out.println(response.toJSONString());
     }
 
@@ -376,7 +376,7 @@ public class ApiImitateTest {
             map.put("bigCode", jsonObject.getString("bigcode"));
             map.put("bigName", jsonObject.getString("bigname"));
             map.put("sign", MD5Util.encrypt("8sadexcaer"));
-            JSONObject response = HttpRequestUtil.sendRequest(map, "http://localhost:8001/api/hospital/saveDepartment");
+            JSONObject response = HttpRequestUtil.sendRequest(map, "http://localhost:8000/hospital/api/saveDepartment");
             System.out.println(response.toJSONString());
         }
     }
@@ -385,7 +385,7 @@ public class ApiImitateTest {
     public void saveSchedule() {
         // Json格式字符串
         String jsonString = "[\n" +
-                "{\"hoscode\":\"1000_0\",\"depcode\":\"200040878\",\"title\":\"医师\",\"docname\":\"邵迎红\",\"skill\":\"内分泌科常见病。\",\"workDate\":\"2020-12-13\",\"workTime\":0,\"reservedNumber\":33,\"availableNumber\":22,\"amount\":\"100\",\"status\":1,\"hosScheduleId\":\"1\"},\n" +
+                "{\"hoscode\":\"1000_0\",\"depcode\":\"200040878\",\"title\":\"医师\",\"docname\":\"邵迎红\",\"skill\":\"内分泌科常见病。\",\"workDate\":\"2021-06-14\",\"workTime\":0,\"reservedNumber\":33,\"availableNumber\":19,\"amount\":\"100\",\"status\":1,\"hosScheduleId\":\"1\"},\n" +
                 "{\"hoscode\":\"1000_0\",\"depcode\":\"200040878\",\"title\":\"副主任医师\",\"docname\":\"裴育\",\"skill\":\"骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。\",\"workDate\":\"2020-12-22\",\"workTime\":0,\"reservedNumber\":40,\"availableNumber\":6,\"amount\":\"100\",\"status\":1,\"hosScheduleId\":\"2\"},\n" +
                 "{\"hoscode\":\"1000_0\",\"depcode\":\"200040878\",\"title\":\"副主任医师\",\"docname\":\"邵迎红\",\"skill\":\"内分泌与代谢性疾病。\",\"workDate\":\"2020-12-22\",\"workTime\":1,\"reservedNumber\":27,\"availableNumber\":10,\"amount\":\"100\",\"status\":1,\"hosScheduleId\":\"3\"},\n" +
                 "{\"hoscode\":\"1000_0\",\"depcode\":\"200040878\",\"title\":\"医师\",\"docname\":\"邵迎红\",\"skill\":\"内分泌科常见病。\",\"workDate\":\"2020-12-14\",\"workTime\":0,\"reservedNumber\":33,\"availableNumber\":22,\"amount\":\"100\",\"status\":1,\"hosScheduleId\":\"4\"},\n" +
@@ -523,7 +523,7 @@ public class ApiImitateTest {
             map.put("status", jsonObject.getString("status"));
             map.put("hospitalScheduleId", jsonObject.getString("hosScheduleId"));
             map.put("sign", MD5Util.encrypt("8sadexcaer"));
-            JSONObject response = HttpRequestUtil.sendRequest(map, "http://localhost:8001/api/hospital/saveSchedule");
+            JSONObject response = HttpRequestUtil.sendRequest(map, "http://localhost:8000/hospital/api/saveSchedule");
             System.out.println(response.toJSONString());
         }
     }
