@@ -7,10 +7,10 @@ package com.xzx.common.constant;
  **/
 public interface AliyunConstant {
     // Oss
-    String END_POINT = "oss-cn-shanghai.aliyuncs.com";
-    String ACCESS_KEY_ID = "LTAI4G9S22aJabEZsmAtg4AM";
-    String ACCESS_KEY_SECRET = "C71bmyiFDNTpna4jNZGMsI3opdEPRG";
-    String BUCKET_NAME = "xzx-oep";
+    String END_POINT = "";
+    String ACCESS_KEY_ID = "";
+    String ACCESS_KEY_SECRET = "";
+    String BUCKET_NAME = "";
     // 短信服务——地区Id
     String REGION_ID = "default";
     String TEMPLATE_CODE = "";
